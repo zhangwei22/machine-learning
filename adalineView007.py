@@ -1,6 +1,21 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import adalineGD006 as adalineGD
+
+'''
+基于鸢尾花数据集训练感知器模型
+
+'''
+
+df = pd.read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data", header=None)
+
+'''
+鸢尾花样本数据散点图
+'''
+y = df.iloc[0:100, 4].values
+y = np.where(y == 'Iris-setosa', -1, 1)
+X = df.iloc[0:100, [0, 2]].values
 
 fig, ax = plt.subplot(nrows=1, ncols=2, figsize=(8, 4))
 ada1 = adalineGD(n_iter=10, eta=0.01).fit(X, y)
