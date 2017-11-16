@@ -8,7 +8,7 @@ from perceptron001 import Perceptron
 mmd样本数据训练
 '''
 
-df = pd.read_csv("/Users/zhangwei/Desktop/train_data_3.csv", header=None)
+df = pd.read_csv("/Users/zhangwei/Desktop/train_data_4.csv", header=None)
 
 y = df.iloc[0:5000, 4].values
 y = np.where(y == 3, -1, 1)

@@ -1,0 +1,13 @@
+# Intellij project files
+*.iml
+.idea/
+
+# Others
+target/
+logs/
+.DS_Store
+test/
+
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
