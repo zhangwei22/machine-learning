@@ -6,11 +6,11 @@ from bordview005 import plot_decision_regions
 from perceptron001 import Perceptron
 
 '''
-基于鸢尾花数据集训练感知器模型
+√ 基于鸢尾花数据集训练感知器模型
 
 '''
 
-#df = pd.read_csv("/Users/zhangwei/Desktop/iris_data.csv", header=None)
+# df = pd.read_csv("/Users/zhangwei/Desktop/iris_data.csv", header=None)
 df = pd.read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data", header=None)
 # print(df.head())
 

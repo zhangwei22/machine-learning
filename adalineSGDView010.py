@@ -6,7 +6,7 @@ from adalineSGD009 import AdalineSGD
 from bordview005 import plot_decision_regions
 
 '''
-标准化特征缩放
+√ 标准化特征缩放
 数据具备标准正态分布的特性：各特征值的均值为0，标准差为1
 
 '''

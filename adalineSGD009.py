@@ -43,7 +43,7 @@ class AdalineSGD(object):
         return X[r], y[r]
 
     def _initialize_weights(self, m):
-        self.W_ = np.zeros(1 + m)
+        self.w_ = np.zeros(1 + m)
         self.w_initialized = True
 
     def _update_weights(self, xi, target):

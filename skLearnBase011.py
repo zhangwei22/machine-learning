@@ -2,7 +2,7 @@ from sklearn import datasets
 import numpy as np
 
 '''
-由于鸢尾花数据集是一个简单、流行的数据集，它经常用于算法实验与测试，因此它已经默认包含在scikit-learn库中了
+√ 由于鸢尾花数据集是一个简单、流行的数据集，它经常用于算法实验与测试，因此它已经默认包含在scikit-learn库中了
 '''
 iris = datasets.load_iris()
 X = iris.data[:, [2, 3]]
@@ -69,12 +69,12 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
     # plot all samples
     X_test, y_test = X[test_idx, :], y[test_idx]
     for idx, cl in enumerate(np.unique(y)):
-        plt.scatter(x=X[y == cl, 0], y=X[y == cl, 1], alpha=0.8, c=cmap(idx), markers=markers[idx], label=cl)
+        plt.scatter(x=X[y == cl, 0], y=X[y == cl, 1], alpha=0.8, c=cmap(idx), marker=markers[idx], label=cl)
 
     # highlight test samples
     if test_idx:
         X_test, y_test = X[test_idx, :], y[test_idx]
-        plt.scatter(X_test[:, 0], X_test[:, 1], c='', alpha=1.0, linewidths=1, markers='o', s=55, label='test set')
+        plt.scatter(X_test[:, 0], X_test[:, 1], c='', alpha=1.0, linewidths=1, marker='o', s=55, label='test set')
 
 
 X_combined_std = np.vstack((X_train_std, X_test_std))

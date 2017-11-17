@@ -6,11 +6,11 @@ from bordview005 import plot_decision_regions
 from perceptron001 import Perceptron
 
 '''
-数据集训练感知器模型
+√ 数据集训练感知器模型
 
 '''
 
-df = pd.read_csv("/Users/zhangwei/Desktop/sort_new_data_2.csv", header=None)
+df = pd.read_csv("/Users/zhangwei/Desktop/python-machine-learn/sort_new_data_2.csv", header=None)
 
 '''
 样本数据散点图
