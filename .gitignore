@@ -2,6 +2,9 @@
 *.iml
 .idea/
 
+# python complie
+__pycache__/
+
 # Others
 target/
 logs/
