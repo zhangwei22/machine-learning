@@ -9,8 +9,3 @@ __pycache__/
 target/
 logs/
 .DS_Store
-test/
-
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
