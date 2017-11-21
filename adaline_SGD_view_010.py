@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from adalineSGD009 import AdalineSGD
-from bordview005 import plot_decision_regions
+from adaline_SGD_009 import AdalineSGD
+from bord_view_005 import plot_decision_regions
 
 '''
 √ 标准化特征缩放

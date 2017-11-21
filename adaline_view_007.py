@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import adalineGD006 as adalineGD
+import adaline_GD_006 as adalineGD
 
 '''
 基于鸢尾花数据集训练感知器模型

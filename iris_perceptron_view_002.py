@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-from bordview005 import plot_decision_regions
-from perceptron001 import Perceptron
+from bord_view_005 import plot_decision_regions
+from perceptron_001 import Perceptron
 
 '''
 √ 基于鸢尾花数据集训练感知器模型
