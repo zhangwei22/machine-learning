@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 
 '''
-去除数据中的null项
+√ 去除数据中的null项
 数据清洗加工
 '''
 
