@@ -5,7 +5,6 @@ from adaline_GD_006 import AdalineGD
 
 '''
 基于鸢尾花数据集训练梯度下降模型
-
 '''
 
 df = pd.read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data", header=None)
