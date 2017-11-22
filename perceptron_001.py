@@ -6,6 +6,10 @@ import numpy as np
 
 
 class Perceptron(object):
+    '''
+    :param eta 学习速率
+    :param n_iter 迭代次数
+    '''
     def __init__(self, eta=0.01, n_iter=10):
         self.eta = eta
         self.n_iter = n_iter
