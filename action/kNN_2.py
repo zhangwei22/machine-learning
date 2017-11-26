@@ -136,11 +136,11 @@ def handwritingClassTest():
         vectorUnderTest = img2vector(
             '/Users/zhangwei/Desktop/python-machine-learn/machinelearninginaction/ch02/digits/trainingDigits/%s' % fileNameStr)
         classifierResult = classify0(vectorUnderTest, trainingMat, hwLabels, 3)
-        print("the classifier came back with:%d, the real answer is:%d", classifierResult, classNumStr)
+        print("the classifier came back with:%d, the real answer is:%d" % (classifierResult, classNumStr))
         if classifierResult != classNumStr:
             errorCount += 1.0
-    print("the total number of errors id:%d", errorCount)
-    print("the total error rate is:%f", errorCount / float(mTest))
+    print("the total number of errors id:%d" % errorCount)
+    print("the total error rate is:%f" % (errorCount / float(mTest)))
 
 
 if __name__ == '__main__':
