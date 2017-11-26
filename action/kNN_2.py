@@ -86,6 +86,19 @@ def datingClassTest():
     print("the total error rate is:%f", errorCount / float(numTestVecs))
 
 
+def classifyPerson():
+    resultList = ['not at all', 'in small doses', 'in large doses']
+    percentTats = float(input("percentage of time spent playing video games?"))
+    ffMiles = float(input("frequent flier miles earned per year?"))
+    iceCream = float(input("liters of ice cream consued per year?"))
+    datingDataMat, datingLabels = file2matrix(
+        '/Users/zhangwei/Desktop/python-machine-learn/machinelearninginaction/Ch02/datingTestSet2.txt')
+    normMat, ranges, minvals = autoNorm(datingDataMat)
+    inArr = array([ffMiles, percentTats, iceCream])
+    classifierResult = classify0((inArr - minvals) / ranges, normMat, datingLabels, 3)
+    print("you will probably like this person:", resultList[classifierResult - 1])
+
+
 if __name__ == '__main__':
     group, labels = createDataSet()
     print(group)
@@ -110,4 +123,6 @@ if __name__ == '__main__':
     print(ranges)
     print(minvals)
 
-    datingClassTest()
+    # datingClassTest()
+
+    classifyPerson()
