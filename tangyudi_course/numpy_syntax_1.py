@@ -138,3 +138,15 @@ print(e is a3)
 e[0, 0] = 9999
 print(a3)
 print(e)
+
+# 创建一个3行4列的0矩阵，元素为浮点型
+a4 = np.zeros((3, 4))
+print(a4)
+# 创建一个三维的矩阵，元素类型为整形
+b4 = np.ones((2, 3, 4), dtype=np.int64)
+print(b4)
+
+c4 = np.arange(10, 31, 5)
+print(c4)
+# 随机创建一个2行3列的矩阵
+print(np.random.random((2, 3)))
