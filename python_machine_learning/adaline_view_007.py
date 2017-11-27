@@ -1,7 +1,8 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from adaline_GD_006 import AdalineGD
+
+from python_machine_learning.adaline_GD_006 import AdalineGD
 
 '''
 √ 基于鸢尾花数据集训练梯度下降模型
