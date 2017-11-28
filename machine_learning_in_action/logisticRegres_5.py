@@ -17,6 +17,7 @@ def sigmoid(inX):
     return 1.0 / (1 + exp(-inX))
 
 
+# 梯度上升算法
 def gradAscent(dataMatIn, classLabels):
     dataMatrix = mat(dataMatIn)
     labelMat = mat(classLabels).transpose()
@@ -58,9 +59,26 @@ def plotBestFit(weights):
     plt.show()
 
 
+# 随机梯度上升算法
+def stocGradAscent1(dataMatrix, classLabels, numIter=150):
+    m, n = shape(dataMatrix)
+    weights = ones(n)  # initialize to all ones
+    for j in range(numIter):
+        dataIndex = list(range(m))
+        for i in range(m):
+            alpha = 4 / (1.0 + j + i) + 0.0001  # apha decreases with iteration, does not
+            randIndex = int(random.uniform(0, len(dataIndex)))  # go to 0 because of the constant
+            h = sigmoid(sum(dataMatrix[randIndex] * weights))
+            error = classLabels[randIndex] - h
+            weights = weights + alpha * error * dataMatrix[randIndex]
+            del (dataIndex[randIndex])
+    return weights
+
+
 if __name__ == '__main__':
     dataArr, labelMat = loadDataSet()
     weights = gradAscent(dataArr, labelMat)
-    print(type(weights))
-    print(type(weights.getA()))
     plotBestFit(weights.getA())
+
+    weights = stocGradAscent1(array(dataArr), labelMat, numIter=500)
+    plotBestFit(weights)
