@@ -1,4 +1,5 @@
 from numpy import *
+import re
 
 
 def loadDataSet():
@@ -20,6 +21,7 @@ def createVocabList(dataSet):
     return list(vocabSet)
 
 
+# 词集模型(set-of-words model)每个词只能出现一次
 def setOfWords2Vec(vocabList, inputSet):
     returnVec = [0] * len(vocabList)
     for word in inputSet:
@@ -30,15 +32,24 @@ def setOfWords2Vec(vocabList, inputSet):
     return returnVec
 
 
+# 词袋模型(bag-of-word model)每个词在文档中能出现多次
+def bagOfWords2VecMN(vocabList, inputSet):
+    returnVec = [0] * len(vocabList)
+    for word in inputSet:
+        if word in vocabList:
+            returnVec[vocabList.index(word)] += 1
+    return returnVec
+
+
 # 朴素贝叶斯分类器训练函数
 def trainNB0(trainMatrix, trainCategory):
     numTrainDocs = len(trainMatrix)
     numWords = len(trainMatrix[0])
     pAbusive = sum(trainCategory) / float(numTrainDocs)
-    p0Num = zeros(numWords)
-    p1Num = zeros(numWords)
-    p0Denom = 0.0
-    p1Denom = 0.0
+    p0Num = ones(numWords)
+    p1Num = ones(numWords)
+    p0Denom = 2.0
+    p1Denom = 2.0
     for i in range(numTrainDocs):
         if trainCategory[i] == 1:
             p1Num += trainMatrix[i]
@@ -46,9 +57,88 @@ def trainNB0(trainMatrix, trainCategory):
         else:
             p0Num += trainMatrix[i]
             p0Denom += sum(trainMatrix[i])
-    p1Vect = p1Num / p1Denom
-    p0Vect = p0Num / p0Denom
+    p1Vect = log(p1Num / p1Denom)
+    p0Vect = log(p0Num / p0Denom)
     return p0Vect, p1Vect, pAbusive
+
+
+# 分类，1表示有侮辱性类文档，0表示非侮辱性类文档
+def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
+    p1 = sum(vec2Classify * p1Vec) + log(pClass1)
+    p0 = sum(vec2Classify * p0Vec) + log(1.0 - pClass1)
+    if p1 > p0:
+        return 1
+    else:
+        return 0
+
+
+def testingNB():
+    listOPosts, listClasses = loadDataSet()
+    myVocalList = createVocabList(listOPosts)
+    trainMat = []
+    for postinDoc in listOPosts:
+        trainMat.append(setOfWords2Vec(myVocalList, postinDoc))
+    p0V, p1V, pAb = trainNB0(array(trainMat), array(listClasses))
+    testEntry = ['love', 'my', 'dalmation']
+    thisDoc = array(setOfWords2Vec(myVocalList, testEntry))
+    print('输入文档:', testEntry)
+    print('分类结果:', classifyNB(thisDoc, p0V, p1V, pAb))
+
+    testEntry = ['stupid', 'garbage']
+    thisDoc = array(setOfWords2Vec(myVocalList, testEntry))
+    print('输入文档:', testEntry)
+    print('分类结果:', classifyNB(thisDoc, p0V, p1V, pAb))
+
+    testEntry = ['worthless', 'steak', 'problem']
+    thisDoc = array(setOfWords2Vec(myVocalList, testEntry))
+    print('输入文档:', testEntry)
+    print('分类结果:', classifyNB(thisDoc, p0V, p1V, pAb))
+
+
+def textParse(bigString):
+    listOfTokens = re.split(r'\W*', bigString)
+    return [tok.lower() for tok in listOfTokens if len(tok) > 2]
+
+
+def spamTest():
+    docList = []
+    classList = []
+    fullText = []
+    for i in range(1, 26):
+        wordList = textParse(open(
+            '/Users/zhangwei/Desktop/python-machine-learn/machinelearninginaction/ch04/email/spam/%d.txt' % i,
+            encoding='ISO-8859-1').read())
+        docList.append(wordList)
+        fullText.extend(wordList)
+        classList.append(1)
+        wordList = textParse(open(
+            '/Users/zhangwei/Desktop/python-machine-learn/machinelearninginaction/ch04/email/ham/%d.txt' % i,
+            encoding='ISO-8859-1').read())
+        docList.append(wordList)
+        fullText.extend(wordList)
+        classList.append(0)
+    vocabList = createVocabList(docList)  # create vocabulary
+    trainingSet = list(range(50))
+    testSet = []  # create test set
+    for i in range(10):
+        randIndex = int(random.uniform(0, len(trainingSet)))
+        testSet.append(trainingSet[randIndex])
+        print(testSet)
+        print(trainingSet[randIndex])
+        del (trainingSet[randIndex])
+    trainMat = []
+    trainClasses = []
+    for docIndex in trainingSet:  # train the classifier (get probs) trainNB0
+        trainMat.append(bagOfWords2VecMN(vocabList, docList[docIndex]))
+        trainClasses.append(classList[docIndex])
+    p0V, p1V, pSpam = trainNB0(array(trainMat), array(trainClasses))
+    errorCount = 0
+    for docIndex in testSet:  # classify the remaining items
+        wordVector = bagOfWords2VecMN(vocabList, docList[docIndex])
+        if classifyNB(array(wordVector), p0V, p1V, pSpam) != classList[docIndex]:
+            errorCount += 1
+            # print("classification error", docList[docIndex])
+    print('the error rate is: ', float(errorCount) / len(testSet))
 
 
 if __name__ == '__main__':
@@ -61,10 +151,28 @@ if __name__ == '__main__':
     # result2 = setOfWords2Vec(myVocalList, listOPosts[1])
     # print(result2)
 
-    trainMat = []
-    for postinDoc in listOPosts:
-        trainMat.append(setOfWords2Vec(myVocalList, postinDoc))
-    p0V, p1V, pAb = trainNB0(trainMat, listClasses)
-    print(pAb)
-    print(p0V)
-    print(p1V)
+    # trainMat = []
+    # for postinDoc in listOPosts:
+    #     trainMat.append(setOfWords2Vec(myVocalList, postinDoc))
+    # p0V, p1V, pAb = trainNB0(trainMat, listClasses)
+    # print(pAb)
+    # print(p0V)
+    # print(p1V)
+
+    # testingNB()
+    #
+    # mySent = 'This book is best book on Python or M.L. I have ever laid eyes upon.'
+    # print(mySent.split())
+    #
+    # # 去掉标点符号
+    # regEx = re.compile('\\W*')
+    # listOfTokens = regEx.split(mySent)
+    # print(listOfTokens)
+    # # 去掉空字符串
+    # listOfTokens = [tok for tok in listOfTokens if len(tok) > 0]
+    # print(listOfTokens)
+    # # 全部转成小写
+    # listOfTokens = [tok.lower() for tok in listOfTokens if len(tok) > 0]
+    # print(listOfTokens)
+
+    spamTest()
