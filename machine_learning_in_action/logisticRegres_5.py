@@ -84,10 +84,11 @@ def classifyVector(inX, weights):
 
 
 def colicTest():
-    frTrain = open('/Users/zhangwei/Desktop/python-machine-learn/machinelearninginaction/Ch05/horseColicTraining.txt')
-    frTest = open('/Users/zhangwei/Desktop/python-machine-learn/machinelearninginaction/Ch05/horseColicTest.txt')
+    frTrain = open('/Users/zhangwei/Desktop/python-machine-learn/machineLearningInAction/Ch05/horseColicTraining.txt')
+    frTest = open('/Users/zhangwei/Desktop/python-machine-learn/machineLearningInAction/Ch05/horseColicTest.txt')
     trainingSet = []
     trainingLabels = []
+    # 打开训练数据，整理出属性集trainingSet、label向量trainingLabels
     for line in frTrain.readlines():
         currLine = line.strip().split('\t')
         lineArr = []
@@ -95,9 +96,13 @@ def colicTest():
             lineArr.append(float(currLine[i]))
         trainingSet.append(lineArr)
         trainingLabels.append(float(currLine[21]))
+    print(array(trainingSet))
+    print(trainingLabels)
+    # 用随机梯度下降迭代1000次得到回归系数trainWeights
     trainWeights = stocGradAscent1(array(trainingSet), trainingLabels, 1000)
     errorCount = 0
     numTestVec = 0.0
+    # 遍历测试数据集，用每条测试数据集去预测分类，并比较分类的结果跟源数据结果是否一致
     for line in frTest.readlines():
         numTestVec += 1.0
         currLine = line.strip().split('\t')

@@ -16,6 +16,7 @@ k-近邻算法
 def createDataSet():
     # 创建训练数据
     group = array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
+    print(type(group))
     labels = ['A', 'A', 'B', 'B']
     return group, labels
 
@@ -151,9 +152,9 @@ if __name__ == '__main__':
     print(result)
 
     datingDataMat, datingLabels = file2matrix(
-        '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/Ch02/datingTestSet2.txt')
-    print(datingDataMat)
-    print(datingLabels)
+        '/Users/zhangwei/Desktop/python-machine-learn/machineLearningInAction/Ch02/datingTestSet2.txt')
+    print('datingData:',datingDataMat)
+    print('datingLabels:',datingLabels)
 
     # 构建散点图
     # fig = plt.figure()
@@ -171,9 +172,9 @@ if __name__ == '__main__':
 
     # classifyPerson()
 
-    testVector = img2vector(
-        '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/ch02/digits/testDigits/0_13.txt')
-    print(testVector[0, 0:31])
-    print(testVector[0, 32:63])
-
-    handwritingClassTest()
+    # testVector = img2vector(
+    #     '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/ch02/digits/testDigits/0_13.txt')
+    # print(testVector[0, 0:31])
+    # print(testVector[0, 32:63])
+    #
+    # handwritingClassTest()
