@@ -30,9 +30,9 @@ def clipAlpha(aj, H, L):
 
 
 def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
-    dataMatrix = mat(dataMatIn);
+    dataMatrix = mat(dataMatIn)
     labelMat = mat(classLabels).transpose()
-    b = 0;
+    b = 0
     m, n = shape(dataMatrix)
     alphas = mat(zeros((m, 1)))
     iter = 0
@@ -45,8 +45,8 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                 j = selectJrand(i, m)
                 fXj = float(multiply(alphas, labelMat).T * (dataMatrix * dataMatrix[j, :].T)) + b
                 Ej = fXj - float(labelMat[j])
-                alphaIold = alphas[i].copy();
-                alphaJold = alphas[j].copy();
+                alphaIold = alphas[i].copy()
+                alphaJold = alphas[j].copy()
                 if (labelMat[i] != labelMat[j]):
                     L = max(0, alphas[j] - alphas[i])
                     H = min(C, C + alphas[j] - alphas[i])
@@ -55,19 +55,19 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                     H = min(C, alphas[j] + alphas[i])
                 if L == H:
                     print("L==H")
-                continue
+                    continue
                 eta = 2.0 * dataMatrix[i, :] * dataMatrix[j, :].T - dataMatrix[i, :] * dataMatrix[i, :].T - dataMatrix[
                                                                                                             j,
                                                                                                             :] * dataMatrix[
                                                                                                                  j, :].T
                 if eta >= 0:
                     print("eta>=0")
-                continue
+                    continue
                 alphas[j] -= labelMat[j] * (Ei - Ej) / eta
                 alphas[j] = clipAlpha(alphas[j], H, L)
                 if (abs(alphas[j] - alphaJold) < 0.00001):
                     print("j not moving enough")
-                continue
+                    continue
                 alphas[i] += labelMat[j] * labelMat[i] * (alphaJold - alphas[j])  # update i by the same amount as j
                 # the update is in the oppostie direction
                 b1 = b - Ei - labelMat[i] * (alphas[i] - alphaIold) * dataMatrix[i, :] * dataMatrix[i, :].T - labelMat[
@@ -106,3 +106,11 @@ if __name__ == '__main__':
     dataArr, labelArr = loadData('source_code/Ch06/testSet.txt')
     print(dataArr)
     print(labelArr)
+
+    b, alphas = smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
+    print(b)
+    print(alphas[alphas>0])
+    print(shape(alphas[alphas>0]))
+    for i in range(100):
+        if alphas[i]>0.0:
+            print(dataArr[i], labelArr[i])
