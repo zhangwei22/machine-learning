@@ -75,7 +75,7 @@ def autoNorm(dataSet):
 def datingClassTest():
     hoRatio = 0.10
     datingDataMat, datingLabels = file2matrix(
-        '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/Ch02/datingTestSet.txt')
+        'source_code/Ch02/datingTestSet.txt')
     normMat, ranges, minvals = autoNorm(datingDataMat)
     m = normMat.shape[0]
     numTestVecs = int(m * hoRatio)
@@ -95,7 +95,7 @@ def classifyPerson():
     ffMiles = float(input("frequent flier miles earned per year?"))
     iceCream = float(input("liters of ice cream consued per year?"))
     datingDataMat, datingLabels = file2matrix(
-        '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/Ch02/datingTestSet2.txt')
+        'source_code/Ch02/datingTestSet2.txt')
     normMat, ranges, minvals = autoNorm(datingDataMat)
     inArr = array([ffMiles, percentTats, iceCream])
     classifierResult = classify0((inArr - minvals) / ranges, normMat, datingLabels, 3)
@@ -116,7 +116,7 @@ def img2vector(filename):
 def handwritingClassTest():
     hwLabels = []
     trainingFileList = listdir(
-        '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/ch02/digits/trainingDigits')
+        'source_code/ch02/digits/trainingDigits')
     m = len(trainingFileList)
     trainingMat = zeros((m, 1024))
     for i in range(m):
@@ -125,9 +125,9 @@ def handwritingClassTest():
         classNumStr = int(fileStr.split('_')[0])
         hwLabels.append(classNumStr)
         trainingMat[i, :] = img2vector(
-            '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/ch02/digits/trainingDigits/%s' % fileNameStr)
+            'source_code/ch02/digits/trainingDigits/%s' % fileNameStr)
     testFileList = listdir(
-        '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/ch02/digits/testDigits')
+        'source_code/ch02/digits/testDigits')
     errorCount = 0.0
     mTest = len(testFileList)
     for i in range(mTest):
@@ -135,7 +135,7 @@ def handwritingClassTest():
         fileStr = fileNameStr.split('.')[0]
         classNumStr = int(fileStr.split('_')[0])
         vectorUnderTest = img2vector(
-            '/Users/zhangwei/Desktop/python-machine-learn/machine_learning_in_action/ch02/digits/trainingDigits/%s' % fileNameStr)
+            'source_code/ch02/digits/trainingDigits/%s' % fileNameStr)
         classifierResult = classify0(vectorUnderTest, trainingMat, hwLabels, 3)
         print("the classifier came back with:%d, the real answer is:%d" % (classifierResult, classNumStr))
         if classifierResult != classNumStr:
@@ -152,15 +152,15 @@ if __name__ == '__main__':
     print(result)
 
     datingDataMat, datingLabels = file2matrix(
-        '/Users/zhangwei/Desktop/python-machine-learn/machineLearningInAction/Ch02/datingTestSet2.txt')
-    print('datingData:',datingDataMat)
-    print('datingLabels:',datingLabels)
+        'source_code/Ch02/datingTestSet2.txt')
+    print('datingData:', datingDataMat)
+    print('datingLabels:', datingLabels)
 
     # 构建散点图
-    # fig = plt.figure()
-    # ax = fig.add_subplot(111)
-    # ax.scatter(datingDataMat[:, 1], datingDataMat[:, 2], 15.0 * array(datingLabels), 15.0 * array(datingLabels))
-    # plt.show()
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.scatter(datingDataMat[:, 1], datingDataMat[:, 2], 15.0 * array(datingLabels), 15.0 * array(datingLabels))
+    plt.show()
 
     # 归一化特征值
     normMat, ranges, minvals = autoNorm(datingDataMat)

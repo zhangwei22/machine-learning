@@ -1,1 +1,1 @@
-This project is study for 《Machine Learning in Action》
+This modul is study for 《Machine Learning in Action》
