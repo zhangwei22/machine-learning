@@ -6,6 +6,23 @@ import traceback
 '''
 
 
+def get_connect():
+    # 打开数据库连接
+    db = pymysql.connect("localhost", "root", "root", "spider")
+    # 设置编码
+    db.set_charset('utf8')
+    return db
+
+
+def get_cursor(db):
+    # 使用 cursor() 方法创建一个游标对象 cursor
+    cursor = db.cursor()
+    cursor.execute('SET NAMES utf8;')
+    cursor.execute('SET CHARACTER SET utf8;')
+    cursor.execute('SET character_set_connection=utf8;')
+    return cursor
+
+
 def add(data):
     '''
     数据插入操作
@@ -17,14 +34,8 @@ def add(data):
         data.get("score"), data.get("synopsis"), data.get("image_url"), data.get("director"), data.get("actor"),
         data.get("language"))
     print("insert sql:", sql)
-    # 打开数据库连接
-    db = pymysql.connect("localhost", "root", "root", "spider")
-    db.set_charset('utf8')
-    # 使用 cursor() 方法创建一个游标对象 cursor
-    cursor = db.cursor()
-    cursor.execute('SET NAMES utf8;')
-    cursor.execute('SET CHARACTER SET utf8;')
-    cursor.execute('SET character_set_connection=utf8;')
+    db = get_connect()
+    cursor = get_cursor(db)
     try:
         # 使用 execute() 方法执行 SQL
         status = cursor.execute(sql)
@@ -47,12 +58,8 @@ def delete(id):
     '''
     sql = "delete from `film` where `id` = '%s'" % (id)
     print("deleta sql:", sql)
-    db = pymysql.connect("localhost", "root", "root", "spider")
-    db.set_charset('utf8')
-    cursor = db.cursor()
-    cursor.execute('SET NAMES utf8;')
-    cursor.execute('SET CHARACTER SET utf8;')
-    cursor.execute('SET character_set_connection=utf8;')
+    db = get_connect()
+    cursor = get_cursor(db)
     try:
         status = cursor.execute(sql)
         print("delete status:", status)
@@ -73,12 +80,8 @@ def update(data):
     sql = "update `film` set `name` = '%s', english_name = '%s' where `id`='%s'" % (
         data.get("name"), data.get("english_name"), data.get("id"))
     print("update sql:", sql)
-    db = pymysql.connect("localhost", "root", "root", "spider")
-    db.set_charset('utf8')
-    cursor = db.cursor()
-    cursor.execute('SET NAMES utf8;')
-    cursor.execute('SET CHARACTER SET utf8;')
-    cursor.execute('SET character_set_connection=utf8;')
+    db = get_connect()
+    cursor = get_cursor(db)
     try:
         status = cursor.execute(sql)
         print("delete status:", status)
@@ -98,12 +101,8 @@ def select(id):
     '''
     sql = "select * from `film` where id = '%d'" % (id)
     print("select sql:", sql)
-    db = pymysql.connect("localhost", "root", "root", "spider")
-    db.set_charset('utf8')
-    cursor = db.cursor()
-    cursor.execute('SET NAMES utf8;')
-    cursor.execute('SET CHARACTER SET utf8;')
-    cursor.execute('SET character_set_connection=utf8;')
+    db = get_connect()
+    cursor = get_cursor(db)
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -122,13 +121,9 @@ def create_table():
     创建表操作
     :return:
     '''
-    db = pymysql.connect("localhost", "root", "root", "spider")
-    db.set_charset('utf8')
-    cursor = db.cursor()
-    cursor.execute('SET NAMES utf8;')
-    cursor.execute('SET CHARACTER SET utf8;')
-    cursor.execute('SET character_set_connection=utf8;')
-    cursor.execute("drop table if EXISTS TEMPORARY ")
+    db = get_connect()
+    cursor = get_cursor(db)
+    cursor.execute("drop table if EXISTS employee ")
     sql = """CREATE TABLE employee (
          FIRST_NAME  CHAR(20) NOT NULL,
          LAST_NAME  CHAR(20),
@@ -155,7 +150,7 @@ if __name__ == '__main__':
             'release_time': '上映时间：2017-11-24'}
 
     # add(data)
-    # delete(537)
+    # delete(538)
     # update(data)
     # set = select(536)
     # print("set:", set)
