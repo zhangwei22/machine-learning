@@ -80,6 +80,7 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
 X_combined_std = np.vstack((X_train_std, X_test_std))
 y_combined = np.hstack((y_train, y_test))
 
+import math
 from sklearn.linear_model import LogisticRegression
 
 lr = LogisticRegression(C=1000.0, random_state=0)
@@ -90,14 +91,15 @@ plt.ylabel('petal width [standardized]')
 plt.legend(loc='upper left')
 plt.show()
 
-lr.predict_proba(X_test_std[0, :])
+### 模型预测此样本属于Iris-Virginica的概率为93.7%， 属于Iris-Versicolor的概率为6.3%
+print(lr.predict_proba(X_test_std[0, :]))
 
 weights, params = [], []
 for c in np.arange(-5, 5):
-    lr = LogisticRegression(C=10 ** c, random_state=0)
+    lr = LogisticRegression(C=math.pow(10, c), random_state=0)
     lr.fit(X_train_std, y_train)
     weights.append(lr.coef_[1])
-    params.append(10 ** c)
+    params.append(math.pow(10, c))
 
 weights = np.array(weights)
 plt.plot(params, weights[:, 0], label='petal length')
