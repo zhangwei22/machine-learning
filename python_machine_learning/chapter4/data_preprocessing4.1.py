@@ -1,5 +1,6 @@
 import pandas as pd
 from io import StringIO
+from sklearn.preprocessing import Imputer
 
 
 def init_data_by_string_io():
@@ -37,7 +38,7 @@ def show_nan_columns(df):
 
 def del_include_nan_columns(df):
     '''
-    删除数据集中包含缺失值的列
+    缺失数据删除
     :param df:
     :return:
     '''
@@ -62,7 +63,20 @@ def del_include_nan_columns(df):
     # print(df.values)
 
 
+def meaneinputation(df):
+    '''
+    缺失数据填充
+    :return:
+    '''
+    # 均值插补
+    imr = Imputer(missing_values='NaN', strategy='mean', axis=0)
+    imr = imr.fit(df)
+    imputed_data = imr.transform(df.values)
+    print('meaneinputation:', imputed_data)
+
+
 if __name__ == '__main__':
     df = init_data_by_read_file('test_data.csv')
     show_nan_columns(df)
-    del_include_nan_columns(df)
+    # del_include_nan_columns(df)
+    meaneinputation(df)
