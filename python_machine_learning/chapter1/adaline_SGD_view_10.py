@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
-from python_machine_learning.adaline_SGD_009 import AdalineSGD
 from python_machine_learning.bord_view_005 import plot_decision_regions
+
+from python_machine_learning.chapter1.adaline_SGD_9 import AdalineSGD
 
 '''
 √ 标准化特征缩放
