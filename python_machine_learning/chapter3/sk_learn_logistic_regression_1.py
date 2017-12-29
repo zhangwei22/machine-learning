@@ -1,5 +1,13 @@
-from sklearn import datasets
 import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+from sklearn import datasets
+from sklearn.cross_validation import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import Perceptron
+from matplotlib.colors import ListedColormap
+from sklearn.linear_model import LogisticRegression
 
 '''
 √ 由于鸢尾花数据集是一个简单、流行的数据集，它经常用于算法实验与测试，因此它已经默认包含在scikit-learn库中了
@@ -8,14 +16,12 @@ iris = datasets.load_iris()
 X = iris.data[:, [2, 3]]
 y = iris.target
 
-from sklearn.cross_validation import train_test_split
 
 '''
 使用scikit-learn中cross_validation模块中的train_test_split函数，随机将数据矩阵X与类标y按照3：7的比例划分为测试数据集（45个样本）和训练数据集（105个样本）
 '''
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
 
-from sklearn.preprocessing import StandardScaler
 
 '''
 使用scikit-learn中preprocessing模块中的StandardScaler类对特征进行标准化处理
@@ -25,7 +31,6 @@ sc.fit(X_train)
 X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
-from sklearn.linear_model import Perceptron
 
 '''
 random_state参数在每次迭代后初始化重排训练数据集
@@ -46,8 +51,6 @@ print('Misclassified samples:%d' % (y_test != y_pred).sum())
 # '''
 # print('Accuracy:%.2f' % accuracy_score(y_test, y_pred))
 
-from matplotlib.colors import ListedColormap
-import matplotlib.pyplot as plt
 
 
 def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
@@ -80,8 +83,6 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
 X_combined_std = np.vstack((X_train_std, X_test_std))
 y_combined = np.hstack((y_train, y_test))
 
-import math
-from sklearn.linear_model import LogisticRegression
 
 lr = LogisticRegression(C=1000.0, random_state=0)
 lr.fit(X_train_std, y_train)
