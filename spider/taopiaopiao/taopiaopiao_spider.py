@@ -116,7 +116,7 @@ def write_content(content):
     '''
     写入指定的内容到文件中
     '''
-    f = open("persistence/tmp.txt", "w")
+    f = open("persistence/stock_rnn-tmp.txt", "w")
     f.write(content)
     f.close()
 

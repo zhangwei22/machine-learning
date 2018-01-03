@@ -102,7 +102,7 @@ def colicTest():
         if int(classifyVector(array(lineArr), trainWeights))!= int(currLine[21]):
             errorCount += 1
     errorRate = (float(errorCount)/numTestVec)
-    print("the error rate of this test is: %f" % errorRate)
+    print("the error rate of this stock_rnn is: %f" % errorRate)
     return errorRate
 
 def multiTest():

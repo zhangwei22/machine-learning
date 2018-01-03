@@ -33,25 +33,25 @@ from logistic_sgd import LogisticRegression, load_data
 class HiddenLayer(object):
     def __init__(self, rng, input, n_in, n_out, W=None, b=None, activation=T.tanh):
         """
-        ×¢ÊÍ£º 
-        ÕâÊÇ¶¨ÒåÒþ²Ø²ãµÄÀà£¬Ê×ÏÈÃ÷È·£ºÒþ²Ø²ãµÄÊäÈë¼´input£¬Êä³ö¼´Òþ²Ø²ãµÄÉñ¾­Ôª¸öÊý¡£ÊäÈë²ãÓëÒþ²Ø²ãÊÇÈ«Á¬½ÓµÄ¡£ 
-        ¼ÙÉèÊäÈëÊÇn_inÎ¬µÄÏòÁ¿£¨Ò²¿ÉÒÔËµÊ±n_in¸öÉñ¾­Ôª£©£¬Òþ²Ø²ãÓÐn_out¸öÉñ¾­Ôª£¬ÔòÒòÎªÊÇÈ«Á¬½Ó£¬ 
-        Ò»¹²ÓÐn_in*n_out¸öÈ¨ÖØ£¬¹ÊW´óÐ¡Ê±(n_in,n_out),n_inÐÐn_outÁÐ£¬Ã¿Ò»ÁÐ¶ÔÓ¦Òþ²Ø²ãµÄÃ¿Ò»¸öÉñ¾­ÔªµÄÁ¬½ÓÈ¨ÖØ¡£ 
-        bÊÇÆ«ÖÃ£¬Òþ²Ø²ãÓÐn_out¸öÉñ¾­Ôª£¬¹ÊbÊ±n_outÎ¬ÏòÁ¿¡£ 
-        rng¼´Ëæ»úÊýÉú³ÉÆ÷£¬numpy.random.RandomState£¬ÓÃÓÚ³õÊ¼»¯W¡£ 
-        inputÑµÁ·Ä£ÐÍËùÓÃµ½µÄËùÓÐÊäÈë£¬²¢²»ÊÇMLPµÄÊäÈë²ã£¬MLPµÄÊäÈë²ãµÄÉñ¾­Ôª¸öÊýÊ±n_in£¬¶øÕâÀïµÄ²ÎÊýinput´óÐ¡ÊÇ£¨n_example,n_in£©,Ã¿Ò»ÐÐÒ»¸öÑù±¾£¬¼´Ã¿Ò»ÐÐ×÷ÎªMLPµÄÊäÈë²ã¡£ 
-        activation:¼¤»îº¯Êý,ÕâÀï¶¨ÒåÎªº¯Êýtan
+        ×¢ï¿½Í£ï¿½ 
+        ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ë¼´inputï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ÓµÄ¡ï¿½ 
+        ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½n_inÎ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ËµÊ±n_inï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½n_outï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½È«ï¿½ï¿½ï¿½Ó£ï¿½ 
+        Ò»ï¿½ï¿½ï¿½ï¿½n_in*n_outï¿½ï¿½È¨ï¿½Ø£ï¿½ï¿½ï¿½Wï¿½ï¿½Ð¡Ê±(n_in,n_out),n_inï¿½ï¿½n_outï¿½Ð£ï¿½Ã¿Ò»ï¿½Ð¶ï¿½Ó¦ï¿½ï¿½ï¿½Ø²ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Ø¡ï¿½ 
+        bï¿½ï¿½Æ«ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½n_outï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½bÊ±n_outÎ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+        rngï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½numpy.random.RandomStateï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½Wï¿½ï¿½ 
+        inputÑµï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MLPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã£¬MLPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Ê±n_inï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½inputï¿½ï¿½Ð¡ï¿½Ç£ï¿½n_example,n_inï¿½ï¿½,Ã¿Ò»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ÎªMLPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã¡£ 
+        activation:ï¿½ï¿½ï¿½îº¯ï¿½ï¿½,ï¿½ï¿½ï¿½ï¶¨ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½tan
         """
-        self.input = input  # ÀàHiddenLayerµÄinput¼´Ëù´«µÝ½øÀ´µÄinput 
+        self.input = input  # ï¿½ï¿½HiddenLayerï¿½ï¿½inputï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½ï¿½ï¿½ï¿½ï¿½ï¿½input 
 
         """ 
-        ×¢ÊÍ£º 
-        ´úÂëÒª¼æÈÝGPU£¬ÔòW¡¢b±ØÐëÊ¹ÓÃ dtype=theano.config.floatX,²¢ÇÒ¶¨ÒåÎªtheano.shared 
-        ÁíÍâ£¬WµÄ³õÊ¼»¯ÓÐ¸ö¹æÔò£ºÈç¹ûÊ¹ÓÃtanhº¯Êý£¬ÔòÔÚ-sqrt(6./(n_in+n_hidden))µ½sqrt(6./(n_in+n_hidden))Ö®¼ä¾ùÔÈ 
-        ³éÈ¡ÊýÖµÀ´³õÊ¼»¯W£¬ÈôÊ±sigmoidº¯Êý£¬ÔòÒÔÉÏÔÙ³Ë4±¶¡£ 
+        ×¢ï¿½Í£ï¿½ 
+        ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½GPUï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½bï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ dtype=theano.config.floatX,ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½Îªtheano.shared 
+        ï¿½ï¿½ï¿½â£¬Wï¿½Ä³ï¿½Ê¼ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½tanhï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-sqrt(6./(n_in+n_hidden))ï¿½ï¿½sqrt(6./(n_in+n_hidden))Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ 
+        ï¿½ï¿½È¡ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½Ê±sigmoidï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù³ï¿½4ï¿½ï¿½ï¿½ï¿½ 
         """  
-        #Èç¹ûWÎ´³õÊ¼»¯£¬Ôò¸ù¾ÝÉÏÊö·½·¨³õÊ¼»¯¡£  
-        #¼ÓÈëÕâ¸öÅÐ¶ÏµÄÔ­ÒòÊÇ£ºÓÐÊ±ºòÎÒÃÇ¿ÉÒÔÓÃÑµÁ·ºÃµÄ²ÎÊýÀ´³õÊ¼»¯W£¬¼ûÎÒµÄÉÏÒ»ÆªÎÄÕÂ¡£
+        #ï¿½ï¿½ï¿½WÎ´ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½  
+        #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ïµï¿½Ô­ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ÃµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½Ò»Æªï¿½ï¿½ï¿½Â¡ï¿½
         if W is None:
             W_values = numpy.asarray(
                 rng.uniform(
@@ -69,20 +69,20 @@ class HiddenLayer(object):
         if b is None:
             b_values = numpy.zeros((n_out,), dtype=theano.config.floatX)
             b = theano.shared(value=b_values, name='b', borrow=True)
-        # ÓÃÉÏÃæ¶¨ÒåµÄW¡¢bÀ´³õÊ¼»¯ÀàHiddenLayerµÄW¡¢b 
+        # ï¿½ï¿½ï¿½ï¿½ï¿½æ¶¨ï¿½ï¿½ï¿½Wï¿½ï¿½bï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½HiddenLayerï¿½ï¿½Wï¿½ï¿½b 
         self.W = W
         self.b = b
-        # Òþº¬²ãµÄÊä³ö 
+        # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
         lin_output = T.dot(input, self.W) + self.b
         self.output = (
             lin_output if activation is None
             else activation(lin_output)
         )
-        # Òþº¬²ãµÄ²ÎÊý 
+        # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ 
         self.params = [self.W, self.b]
 
 
-# 3²ãµÄMLP  
+# 3ï¿½ï¿½ï¿½MLP  
 class MLP(object):
 
     def __init__(self, rng, input, n_in, n_hidden, n_out):
@@ -94,15 +94,15 @@ class MLP(object):
             activation=T.tanh
         )
 
-        #½«Òþº¬²ãhiddenLayerµÄÊä³ö×÷Îª·ÖÀà²ãlogRegressionLayerµÄÊäÈë£¬ÕâÑù¾Í°ÑËüÃÇÁ¬½ÓÁË  
+        #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hiddenLayerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½logRegressionLayerï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         self.logRegressionLayer = LogisticRegression(
             input=self.hiddenLayer.output,
             n_in=n_hidden,
             n_out=n_out
         )
-        # ÒÔÉÏÒÑ¾­¶¨ÒåºÃMLPµÄ»ù±¾½á¹¹£¬ÏÂÃæÊÇMLPÄ£ÐÍµÄÆäËû²ÎÊý»òÕßº¯Êý 
+        # ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MLPï¿½Ä»ï¿½ï¿½ï¿½ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MLPÄ£ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßºï¿½ï¿½ï¿½ 
         
-        # ¹æÔò»¯Ïî£º³£¼ûµÄL1¡¢L2_sqr  
+        # ï¿½ï¿½ï¿½ï¿½ï¿½î£ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½L1ï¿½ï¿½L2_sqr  
         self.L1 = (
             abs(self.hiddenLayer.W).sum()
             + abs(self.logRegressionLayer.W).sum()
@@ -115,51 +115,51 @@ class MLP(object):
             + (self.logRegressionLayer.W ** 2).sum()
         )
 
-        # ËðÊ§º¯ÊýNll£¨Ò²½Ð´ú¼Ûº¯Êý£© 
+        # ï¿½ï¿½Ê§ï¿½ï¿½ï¿½ï¿½Nllï¿½ï¿½Ò²ï¿½Ð´ï¿½ï¿½Ûºï¿½ï¿½ï¿½ï¿½ï¿½ 
         self.negative_log_likelihood = (
             self.logRegressionLayer.negative_log_likelihood
         )
-        #Îó²î
+        #ï¿½ï¿½ï¿½
         self.errors = self.logRegressionLayer.errors
 
-        #MLPµÄ²ÎÊý
+        #MLPï¿½Ä²ï¿½ï¿½ï¿½
         self.params = self.hiddenLayer.params + self.logRegressionLayer.params
-# test_mlpÊÇÒ»¸öÓ¦ÓÃÊµÀý£¬ÓÃÌÝ¶ÈÏÂ½µÀ´ÓÅ»¯MLP£¬Õë¶ÔMNISTÊý¾Ý¼¯
+# test_mlpï¿½ï¿½Ò»ï¿½ï¿½Ó¦ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½Å»ï¿½MLPï¿½ï¿½ï¿½ï¿½ï¿½MNISTï¿½ï¿½ï¿½Ý¼ï¿½
 def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
              dataset='mnist.pkl.gz', batch_size=20, n_hidden=500):
     """ 
-    ×¢ÊÍ£º 
-    learning_rateÑ§Ï°ËÙÂÊ£¬ÌÝ¶ÈÇ°µÄÏµÊý¡£ 
-    L1_reg¡¢L2_reg£ºÕýÔò»¯ÏîÇ°µÄÏµÊý£¬È¨ºâÕýÔò»¯ÏîÓëNllÏîµÄ±ÈÖØ 
-    ´ú¼Ûº¯Êý=Nll+L1_reg*L1»òÕßL2_reg*L2_sqr 
-    n_epochs£ºµü´úµÄ×î´ó´ÎÊý£¨¼´ÑµÁ·²½Êý£©£¬ÓÃÓÚ½áÊøÓÅ»¯¹ý³Ì 
-    dataset£ºÑµÁ·Êý¾ÝµÄÂ·¾¶ 
-    n_hidden:Òþ²Ø²ãÉñ¾­Ôª¸öÊý 
-    batch_size=20£¬¼´Ã¿ÑµÁ·Íê20¸öÑù±¾²Å¼ÆËãÌÝ¶È²¢¸üÐÂ²ÎÊý 
+    ×¢ï¿½Í£ï¿½ 
+    learning_rateÑ§Ï°ï¿½ï¿½ï¿½Ê£ï¿½ï¿½Ý¶ï¿½Ç°ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ 
+    L1_regï¿½ï¿½L2_regï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nllï¿½ï¿½Ä±ï¿½ï¿½ï¿½ 
+    ï¿½ï¿½ï¿½Ûºï¿½ï¿½ï¿½=Nll+L1_reg*L1ï¿½ï¿½ï¿½ï¿½L2_reg*L2_sqr 
+    n_epochsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½ 
+    datasetï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Â·ï¿½ï¿½ 
+    n_hidden:ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ 
+    batch_size=20ï¿½ï¿½ï¿½ï¿½Ã¿Ñµï¿½ï¿½ï¿½ï¿½20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½Ý¶È²ï¿½ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½ 
     """  
-    # ¼ÓÔØÊý¾Ý¼¯£¬²¢·ÖÎªÑµÁ·¼¯¡¢ÑéÖ¤¼¯¡¢²âÊÔ¼¯¡£  
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÑµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½  
     datasets = load_data(dataset)      
     train_set_x, train_set_y = datasets[0]
     valid_set_x, valid_set_y = datasets[1]
     test_set_x, test_set_y = datasets[2]
     
-    # shape[0]»ñµÃÐÐÊý£¬Ò»ÐÐ´ú±íÒ»¸öÑù±¾£¬¹Ê»ñÈ¡µÄÊÇÑù±¾Êý£¬³ýÒÔbatch_size¿ÉÒÔµÃµ½ÓÐ¶àÉÙ¸öbatch
+    # shape[0]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ð´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½batch_sizeï¿½ï¿½ï¿½ÔµÃµï¿½ï¿½Ð¶ï¿½ï¿½Ù¸ï¿½batch
     n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
     n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
     n_test_batches = test_set_x.get_value(borrow=True).shape[0] / batch_size
     
     ############
-    # ¹¹½¨Ä£ÐÍ #
+    # ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ #
     ############
     print '... building the model'
     
-    index = T.lscalar()  # index±íÊ¾batchµÄÏÂ±ê£¬±êÁ¿ 
-    x = T.matrix('x')  # x±íÊ¾Êý¾Ý¼¯ 
-    y = T.ivector('y')  # y±íÊ¾Àà±ð£¬Ò»Î¬ÏòÁ¿
+    index = T.lscalar()  # indexï¿½ï¿½Ê¾batchï¿½ï¿½ï¿½Â±ê£¬ï¿½ï¿½ï¿½ï¿½ 
+    x = T.matrix('x')  # xï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ý¼ï¿½ 
+    y = T.ivector('y')  # yï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ò»Î¬ï¿½ï¿½ï¿½ï¿½
     
     rng = numpy.random.RandomState(1234)
     
-    #ÊµÀý»¯Ò»¸öMLP£¬ÃüÃûÎªclassifier  
+    #Êµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½MLPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªclassifier  
     classifier = MLP(
         rng=rng,
         input=x,
@@ -168,8 +168,8 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
         n_out=10
     )
     
-    #´ú¼Ûº¯Êý£¬ÓÐ¹æÔò»¯Ïî  
-    #ÓÃyÀ´³õÊ¼»¯£¬¶øÆäÊµ»¹ÓÐÒ»¸öÒþº¬µÄ²ÎÊýxÔÚclassifierÖÐ
+    #ï¿½ï¿½ï¿½Ûºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½  
+    #ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½xï¿½ï¿½classifierï¿½ï¿½
     cost = (
         classifier.negative_log_likelihood(y)
         + L1_reg * classifier.L1
@@ -194,11 +194,11 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
         }
     )
 
-    #costº¯Êý¶Ô¸÷¸ö²ÎÊýµÄÆ«µ¼ÊýÖµ£¬¼´ÌÝ¶È£¬´æÓÚgparams
+    #costï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Ý¶È£ï¿½ï¿½ï¿½ï¿½ï¿½gparams
     gparams = [T.grad(cost, param) for param in classifier.params]
 
-    #²ÎÊý¸üÐÂ¹æÔò  
-    #updates[(),(),()....],Ã¿¸öÀ¨ºÅÀïÃæ¶¼ÊÇ(param, param - learning_rate * gparam)£¬¼´Ã¿¸ö²ÎÊýÒÔ¼°ËüµÄ¸üÐÂ¹«Ê½
+    #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½  
+    #updates[(),(),()....],Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ¶¼ï¿½ï¿½(param, param - learning_rate * gparam)ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Â¹ï¿½Ê½
     updates = [(param, param - learning_rate * gparam) for param, gparam in zip(classifier.params, gparams) ]
 
     # compiling a Theano function `train_model` that returns the cost, but
@@ -215,13 +215,13 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
     )
 
     ############
-    # ÑµÁ·Ä£ÐÍ #
+    # Ñµï¿½ï¿½Ä£ï¿½ï¿½ #
     ############
     print '... training'
 
-    patience = 10000  # ×î´óµü´ú´ÎÊý
-    patience_increase = 2  # ²½³¤
-    improvement_threshold = 0.995  # Ïàµ±´óµÄ¸ÄÉÆ±»ÈÏÎªÊÇÏÔÖø
+    patience = 10000  # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    patience_increase = 2  # ï¿½ï¿½ï¿½ï¿½
+    improvement_threshold = 0.995  # ï¿½àµ±ï¿½ï¿½Ä¸ï¿½ï¿½Æ±ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     validation_frequency = min(n_train_batches, patience / 2)
     best_validation_loss = numpy.inf
     best_iter = 0
@@ -236,7 +236,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
         for minibatch_index in xrange(n_train_batches):
 
             minibatch_avg_cost = train_model(minibatch_index)
-            # µ±Ç°µü´úÊý
+            # ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             iter = (epoch - 1) * n_train_batches + minibatch_index
 
             if (iter + 1) % validation_frequency == 0:
@@ -265,12 +265,12 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
                     best_validation_loss = this_validation_loss
                     best_iter = iter
 
-                    # test it on the test set
+                    # stock_rnn it on the stock_rnn set
                     test_losses = [test_model(i) for i
                                    in xrange(n_test_batches)]
                     test_score = numpy.mean(test_losses)
 
-                    print(('     epoch %i, minibatch %i/%i, test error of '
+                    print(('     epoch %i, minibatch %i/%i, stock_rnn error of '
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,
                            test_score * 100.))
@@ -281,7 +281,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
 
     end_time = time.clock()
     print(('Optimization complete. Best validation score of %f %% '
-           'obtained at iteration %i, with test performance %f %%') %
+           'obtained at iteration %i, with stock_rnn performance %f %%') %
           (best_validation_loss * 100., best_iter + 1, test_score * 100.))
     print >> sys.stderr, ('The code for file ' +
                           os.path.split(__file__)[1] +

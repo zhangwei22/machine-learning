@@ -55,4 +55,4 @@ for i in range(m):
     predict= kernelEval.T * multiply(labelSV,alphas[svInd]) + b
     if sign(predict)!=sign(labelArr[i]): errorCount += 1    
 # 输出误差分类结果    	
-print "the test error rate is: %f" % (float(errorCount)/m)   
+print "the stock_rnn error rate is: %f" % (float(errorCount)/m)

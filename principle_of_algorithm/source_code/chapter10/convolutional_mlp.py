@@ -37,71 +37,71 @@ from logistic_sgd import LogisticRegression, load_data
 from mlp import HiddenLayer
 
 """ 
-¾í»ý+ÏÂ²ÉÑùºÏ³ÉÒ»¸ö²ãLeNetConvPoolLayer 
-rng:Ëæ»úÊýÉú³ÉÆ÷£¬ÓÃÓÚ³õÊ¼»¯W 
-input:4Î¬µÄÏòÁ¿£¬theano.tensor.dtensor4 
+ï¿½ï¿½ï¿½+ï¿½Â²ï¿½ï¿½ï¿½ï¿½Ï³ï¿½Ò»ï¿½ï¿½ï¿½ï¿½LeNetConvPoolLayer 
+rng:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½W 
+input:4Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½theano.tensor.dtensor4 
 filter_shape:(number of filters, num input feature maps,filter height, filter width) 
 image_shape:(batch size, num input feature maps,image height, image width) 
 poolsize: (#rows, #cols) 
 """  
 class LeNetConvPoolLayer(object):
     def __init__(self, rng, input, filter_shape, image_shape, poolsize=(2, 2)):
-        #assert condition£¬conditionÎªTrue£¬Ôò¼ÌÐøÍùÏÂÖ´ÐÐ£¬conditionÎªFalse£¬ÖÐ¶Ï³ÌÐò  
-        #image_shape[1]ºÍfilter_shape[1]¶¼ÊÇnum input feature maps£¬ËüÃÇ±ØÐëÊÇÒ»ÑùµÄ¡£  
+        #assert conditionï¿½ï¿½conditionÎªTrueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð£ï¿½conditionÎªFalseï¿½ï¿½ï¿½Ð¶Ï³ï¿½ï¿½ï¿½  
+        #image_shape[1]ï¿½ï¿½filter_shape[1]ï¿½ï¿½ï¿½ï¿½num input feature mapsï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä¡ï¿½  
         assert image_shape[1] == filter_shape[1]
         self.input = input    
-        #Ã¿¸öÒþ²ãÉñ¾­Ôª£¨¼´ÏñËØ£©ÓëÉÏÒ»²ãµÄÁ¬½ÓÊýÎªnum input feature maps * filter height * filter width¡£  
-        #¿ÉÒÔÓÃnumpy.prod(filter_shape[1:])À´ÇóµÃ
+        #Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªnum input feature maps * filter height * filter widthï¿½ï¿½  
+        #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½numpy.prod(filter_shape[1:])ï¿½ï¿½ï¿½ï¿½ï¿½
         fan_in = numpy.prod(filter_shape[1:])
-        #lower layerÉÏÃ¿¸öÉñ¾­Ôª»ñµÃµÄÌÝ¶ÈÀ´×ÔÓÚ£º"num output feature maps * filter height * filter width" /pooling size  
+        #lower layerï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½Ãµï¿½ï¿½Ý¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½"num output feature maps * filter height * filter width" /pooling size  
         fan_out = (filter_shape[0] * numpy.prod(filter_shape[2:]) /
                    numpy.prod(poolsize))
-        #ÒÔÉÏÇóµÃfan_in¡¢fan_out £¬½«ËüÃÇ´úÈë¹«Ê½£¬ÒÔ´ËÀ´Ëæ»ú³õÊ¼»¯W,W¾ÍÊÇÏßÐÔ¾í»ýºË
+        #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fan_inï¿½ï¿½fan_out ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ë¹«Ê½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½W,Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½
         W_bound = numpy.sqrt(6. / (fan_in + fan_out))
         self.W = theano.shared(
             numpy.asarray(
                 rng.uniform(low=-W_bound, high=W_bound, size=filter_shape), dtype=theano.config.floatX ),
             borrow=True
         )
-        #Æ«ÖÃbÊÇÒ»Î¬ÏòÁ¿£¬Ã¿¸öÊä³öÍ¼µÄÌØÕ÷Í¼¶¼¶ÔÓ¦Ò»¸öÆ«ÖÃ£¬  
-        #¶øÊä³öµÄÌØÕ÷Í¼µÄ¸öÊýÓÉfilter¸öÊý¾ö¶¨£¬Òò´ËÓÃfilter_shape[0]¼´number of filtersÀ´³õÊ¼»¯ 
+        #Æ«ï¿½ï¿½bï¿½ï¿½Ò»Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Ó¦Ò»ï¿½ï¿½Æ«ï¿½Ã£ï¿½  
+        #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½filterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½filter_shape[0]ï¿½ï¿½number of filtersï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ 
         b_values = numpy.zeros((filter_shape[0],), dtype=theano.config.floatX)
         self.b = theano.shared(value=b_values, borrow=True)
-        #½«ÊäÈëÍ¼ÏñÓëfilter¾í»ý£¬conv.conv2dº¯Êý  
-        #¾í»ýÍêÃ»ÓÐ¼ÓbÔÙÍ¨¹ýsigmoid£¬ÕâÀïÊÇÒ»´¦¼ò»¯¡£
+        #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½filterï¿½ï¿½ï¿½ï¿½ï¿½conv.conv2dï¿½ï¿½ï¿½ï¿½  
+        #ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð¼ï¿½bï¿½ï¿½Í¨ï¿½ï¿½sigmoidï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ò»¯¡ï¿½
         conv_out = conv.conv2d(
             input=input,
             filters=self.W,
             filter_shape=filter_shape,
             image_shape=image_shape
         )
-        # maxpooling£¬×î´ó×Ó²ÉÑù¹ý³Ì
+        # maxpoolingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         pooled_out = downsample.max_pool_2d(
             input=conv_out,
             ds=poolsize,
             ignore_border=True
         )
-        #¼ÓÆ«ÖÃ£¬ÔÙÍ¨¹ýtanhÓ³Éä£¬µÃµ½¾í»ý+×Ó²ÉÑù²ãµÄ×îÖÕÊä³ö  
+        #ï¿½ï¿½Æ«ï¿½Ã£ï¿½ï¿½ï¿½Í¨ï¿½ï¿½tanhÓ³ï¿½ä£¬ï¿½Ãµï¿½ï¿½ï¿½ï¿½+ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         self.output = T.tanh(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))
-        #¾í»ý+²ÉÑù²ãµÄ²ÎÊý  
+        #ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½  
         self.params = [self.W, self.b]
         
-    # ´æ´¢Ö´ÐÐ²ÎÊý
+    # ï¿½æ´¢Ö´ï¿½Ð²ï¿½ï¿½ï¿½
     def save_net(self, path):  
         import cPickle  
         write_file = open(path, 'wb')   
         cPickle.dump(self.params, write_file, -1)
         write_file.close()    
 
-# ÊµÏÖLeNet5 £ºLeNet5ÓÐÁ½¸ö¾í»ý²ã£¬µÚÒ»¸ö¾í»ý²ãÓÐ20¸ö¾í»ýºË£¬µÚ¶þ¸ö¾í»ý²ãÓÐ50¸ö¾í»ýºË
-# learning_rate:Ñ§Ï°ËÙÂÊ£¬Ëæ»úÌÝ¶ÈÇ°µÄÏµÊý¡£ 
-# n_epochsÑµÁ·²½Êý£¬Ã¿Ò»²½¶¼»á±éÀúËùÓÐbatch£¬¼´ËùÓÐÑù±¾ 
-# batch_size,ÕâÀïÉèÖÃÎª500£¬¼´Ã¿±éÀúÍê500¸öÑù±¾£¬²Å¼ÆËãÌÝ¶È²¢¸üÐÂ²ÎÊý 
-# nkerns=[20, 50],Ã¿Ò»¸öLeNetConvPoolLayer¾í»ýºËµÄ¸öÊý£¬µÚÒ»¸öLeNetConvPoolLayerÓÐ 
-# 20¸ö¾í»ýºË£¬µÚ¶þ¸öÓÐ50¸ö  
+# Êµï¿½ï¿½LeNet5 ï¿½ï¿½LeNet5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½50ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+# learning_rate:Ñ§Ï°ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½Ç°ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ 
+# n_epochsÑµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+# batch_size,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª500ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½500ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½Ý¶È²ï¿½ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½ 
+# nkerns=[20, 50],Ã¿Ò»ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½ï¿½ï¿½ËµÄ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½ 
+# 20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½50ï¿½ï¿½  
 def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nkerns=[20, 50], batch_size=500):
     rng = numpy.random.RandomState(23455)
-    datasets = load_data(dataset)  #¼ÓÔØÊý¾Ý
+    datasets = load_data(dataset)  #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     train_set_x, train_set_y = datasets[0]
     valid_set_x, valid_set_y = datasets[1]
     test_set_x, test_set_y = datasets[2]
@@ -112,43 +112,43 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nke
     n_train_batches /= batch_size
     n_valid_batches /= batch_size
     n_test_batches /= batch_size
-    # ¶¨Òå¼¸¸ö±äÁ¿£¬index±íÊ¾batchÏÂ±ê£¬x±íÊ¾ÊäÈëµÄÑµÁ·Êý¾Ý£¬y¶ÔÓ¦Æä±êÇ©  
+    # ï¿½ï¿½ï¿½å¼¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½indexï¿½ï¿½Ê¾batchï¿½Â±ê£¬xï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½yï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ç©  
     index = T.lscalar()  
     x = T.matrix('x')   
     y = T.ivector('y')  
     ############
-    # ¹¹½¨Ä£ÐÍ #
+    # ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ #
     ############
     print '... building the model'
-    # ÎÒÃÇ¼ÓÔØ½øÀ´µÄbatch´óÐ¡µÄÊý¾ÝÊÇ(batch_size, 28 * 28)£¬µ«ÊÇLeNetConvPoolLayerµÄÊäÈëÊÇËÄÎ¬µÄ£¬ËùÒÔÒªreshape
+    # ï¿½ï¿½ï¿½Ç¼ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½ï¿½batchï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(batch_size, 28 * 28)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½Òªreshape
     layer0_input = x.reshape((batch_size, 1, 28, 28))
-    # layer0¼´µÚÒ»¸öLeNetConvPoolLayer²ã  
-    # ÊäÈëµÄµ¥ÕÅÍ¼Æ¬(28,28)£¬¾­¹ýconvµÃµ½(28-5+1 , 28-5+1) = (24, 24)£¬  
-    # ¾­¹ýmaxpoolingµÃµ½(24/2, 24/2) = (12, 12)  
-    # ÒòÎªÃ¿¸öbatchÓÐbatch_sizeÕÅÍ¼£¬µÚÒ»¸öLeNetConvPoolLayer²ãÓÐnkerns[0]¸ö¾í»ýºË£¬  
-    # ¹Êlayer0Êä³öÎª(batch_size, nkerns[0], 12, 12) 
+    # layer0ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½  
+    # ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½Í¼Æ¬(28,28)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½convï¿½Ãµï¿½(28-5+1 , 28-5+1) = (24, 24)ï¿½ï¿½  
+    # ï¿½ï¿½ï¿½ï¿½maxpoolingï¿½Ãµï¿½(24/2, 24/2) = (12, 12)  
+    # ï¿½ï¿½ÎªÃ¿ï¿½ï¿½batchï¿½ï¿½batch_sizeï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½ï¿½ï¿½nkerns[0]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½  
+    # ï¿½ï¿½layer0ï¿½ï¿½ï¿½Îª(batch_size, nkerns[0], 12, 12) 
     layer0 = LeNetConvPoolLayer(
         rng, input=layer0_input, 
         image_shape=(batch_size, 1, 28, 28),
         filter_shape=(nkerns[0], 1, 5, 5), 
         poolsize=(2, 2)
     )
-    # layer1¼´µÚ¶þ¸öLeNetConvPoolLayer²ã  
-    # ÊäÈëÊÇlayer0µÄÊä³ö£¬Ã¿ÕÅÌØÕ÷Í¼Îª(12,12),¾­¹ýconvµÃµ½(12-5+1, 12-5+1) = (8, 8),  
-    # ¾­¹ýmaxpoolingµÃµ½(8/2, 8/2) = (4, 4)  
-    # ÒòÎªÃ¿¸öbatchÓÐbatch_sizeÕÅÍ¼£¨ÌØÕ÷Í¼£©£¬µÚ¶þ¸öLeNetConvPoolLayer²ãÓÐnkerns[1]¸ö¾í»ýºË  
-    # £¬¹Êlayer1Êä³öÎª(batch_size, nkerns[1], 4, 4)  
+    # layer1ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½  
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½layer0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Îª(12,12),ï¿½ï¿½ï¿½ï¿½convï¿½Ãµï¿½(12-5+1, 12-5+1) = (8, 8),  
+    # ï¿½ï¿½ï¿½ï¿½maxpoolingï¿½Ãµï¿½(8/2, 8/2) = (4, 4)  
+    # ï¿½ï¿½ÎªÃ¿ï¿½ï¿½batchï¿½ï¿½batch_sizeï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½ï¿½ï¿½nkerns[1]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+    # ï¿½ï¿½ï¿½ï¿½layer1ï¿½ï¿½ï¿½Îª(batch_size, nkerns[1], 4, 4)  
     layer1 = LeNetConvPoolLayer(
         rng,  input=layer0.output,
         image_shape=(batch_size, nkerns[0], 12, 12),
         filter_shape=(nkerns[1], nkerns[0], 5, 5),
         poolsize=(2, 2)
     )
-    #Ç°Ãæ¶¨ÒåºÃÁËÁ½¸öLeNetConvPoolLayer£¨layer0ºÍlayer1£©£¬layer1ºóÃæ½Ólayer2£¬ÕâÊÇÒ»¸öÈ«Á¬½Ó²ã£¬Ïàµ±ÓÚMLPÀïÃæµÄÒþº¬²ã  
-    #¹Ê¿ÉÒÔÓÃMLPÖÐ¶¨ÒåµÄHiddenLayerÀ´³õÊ¼»¯layer2£¬layer2µÄÊäÈëÊÇ¶þÎ¬µÄ(batch_size, num_pixels) £¬  
-    #¹ÊÒª½«ÉÏ²ãÖÐÍ¬Ò»ÕÅÍ¼¾­²»Í¬¾í»ýºË¾í»ý³öÀ´µÄÌØÕ÷Í¼ºÏ²¢ÎªÒ»Î¬ÏòÁ¿£¬  
-    #Ò²¾ÍÊÇ½«layer1µÄÊä³ö(batch_size, nkerns[1], 4, 4)flattenÎª(batch_size, nkerns[1]*4*4)=(500£¬800),×÷Îªlayer2µÄÊäÈë¡£  
-    #(500£¬800)±íÊ¾ÓÐ500¸öÑù±¾£¬Ã¿Ò»ÐÐ´ú±íÒ»¸öÑù±¾¡£layer2µÄÊä³ö´óÐ¡ÊÇ(batch_size,n_out)=(500,500) 
+    #Ç°ï¿½æ¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LeNetConvPoolLayerï¿½ï¿½layer0ï¿½ï¿½layer1ï¿½ï¿½ï¿½ï¿½layer1ï¿½ï¿½ï¿½ï¿½ï¿½layer2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½È«ï¿½ï¿½ï¿½Ó²ã£¬ï¿½àµ±ï¿½ï¿½MLPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+    #ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½MLPï¿½Ð¶ï¿½ï¿½ï¿½ï¿½HiddenLayerï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½layer2ï¿½ï¿½layer2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½Î¬ï¿½ï¿½(batch_size, num_pixels) ï¿½ï¿½  
+    #ï¿½ï¿½Òªï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ï²ï¿½ÎªÒ»Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+    #Ò²ï¿½ï¿½ï¿½Ç½ï¿½layer1ï¿½ï¿½ï¿½ï¿½ï¿½(batch_size, nkerns[1], 4, 4)flattenÎª(batch_size, nkerns[1]*4*4)=(500ï¿½ï¿½800),ï¿½ï¿½Îªlayer2ï¿½ï¿½ï¿½ï¿½ï¿½ë¡£  
+    #(500ï¿½ï¿½800)ï¿½ï¿½Ê¾ï¿½ï¿½500ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½Ð´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½layer2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½(batch_size,n_out)=(500,500) 
     layer2_input = layer1.output.flatten(2)
     layer2 = HiddenLayer(
         rng,
@@ -157,14 +157,14 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nke
         n_out=500,
         activation=T.tanh
     )
-    # ×îºóÒ»²ãlayer3ÊÇ·ÖÀà²ã£¬ÓÃµÄÊÇÂß¼­»Ø¹éÖÐ¶¨ÒåµÄLogisticRegression£¬  
-    # layer3µÄÊäÈëÊÇlayer2µÄÊä³ö(500,500)£¬layer3µÄÊä³ö¾ÍÊÇ(batch_size,n_out)=(500,10) 
+    # ï¿½ï¿½ï¿½Ò»ï¿½ï¿½layer3ï¿½Ç·ï¿½ï¿½ï¿½ã£¬ï¿½Ãµï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½Ø¹ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½LogisticRegressionï¿½ï¿½  
+    # layer3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½layer2ï¿½ï¿½ï¿½ï¿½ï¿½(500,500)ï¿½ï¿½layer3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(batch_size,n_out)=(500,10) 
     layer3 = LogisticRegression(input=layer2.output, n_in=500, n_out=10)
-    # ´ú¼Ûº¯ÊýNLL  
+    # ï¿½ï¿½ï¿½Ûºï¿½ï¿½ï¿½NLL  
     cost = layer3.negative_log_likelihood(y)
-    # test_model¼ÆËã²âÊÔÎó²î£¬x¡¢y¸ù¾Ý¸ø¶¨µÄindex¾ßÌå»¯£¬È»ºóµ÷ÓÃlayer3£¬  
-    # layer3ÓÖ»áÖð²ãµØµ÷ÓÃlayer2¡¢layer1¡¢layer0£¬¹Êtest_modelÆäÊµ¾ÍÊÇÕû¸öCNN½á¹¹£¬  
-    # test_modelµÄÊäÈëÊÇx¡¢y£¬Êä³öÊÇlayer3.errors(y)µÄÊä³ö£¬¼´Îó²î¡£
+    # test_modelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î£¬xï¿½ï¿½yï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½indexï¿½ï¿½ï¿½å»¯ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½ï¿½layer3ï¿½ï¿½  
+    # layer3ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½layer2ï¿½ï¿½layer1ï¿½ï¿½layer0ï¿½ï¿½ï¿½ï¿½test_modelï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½CNNï¿½á¹¹ï¿½ï¿½  
+    # test_modelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½layer3.errors(y)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î¡£
     test_model = theano.function(
         [index],
         layer3.errors(y),
@@ -181,13 +181,13 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nke
             y: valid_set_y[index * batch_size: (index + 1) * batch_size]
         }
     )    
-    # ÏÂÃæÊÇtrain_model£¬Éæ¼°µ½ÓÅ»¯Ëã·¨¼´SGD£¬ÐèÒª¼ÆËãÌÝ¶È¡¢¸üÐÂ²ÎÊý     
-    params = layer3.params + layer2.params + layer1.params + layer0.params  # ²ÎÊý¼¯  
-    grads = T.grad(cost, params) # ¶Ô¸÷¸ö²ÎÊýµÄÌÝ¶È
-    # ÒòÎª²ÎÊýÌ«¶à£¬ÔÚupdates¹æÔòÀïÃæÒ»¸öÒ»¸ö¾ßÌåµØÐ´³öÀ´ÊÇºÜÂé·³µÄ£¬
-    # ËùÒÔÏÂÃæÓÃÁËÒ»¸öfor..in..,×Ô¶¯Éú³É¹æÔò¶Ô(param_i, param_i - learning_rate * grad_i)
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½train_modelï¿½ï¿½ï¿½æ¼°ï¿½ï¿½ï¿½Å»ï¿½ï¿½ã·¨ï¿½ï¿½SGDï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ý¶È¡ï¿½ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½     
+    params = layer3.params + layer2.params + layer1.params + layer0.params  # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+    grads = T.grad(cost, params) # ï¿½Ô¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½
+    # ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ì«ï¿½à£¬ï¿½ï¿½updatesï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Çºï¿½ï¿½é·³ï¿½Ä£ï¿½
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½for..in..,ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½(param_i, param_i - learning_rate * grad_i)
     updates = [ (param_i, param_i - learning_rate * grad_i) for param_i, grad_i in zip(params, grads) ]
-    #train_model£¬´úÂë·ÖÎöÍ¬test_model¡£train_modelÀï±Ètest_model¡¢validation_model¶à³öupdates¹æÔò
+    #train_modelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬test_modelï¿½ï¿½train_modelï¿½ï¿½ï¿½test_modelï¿½ï¿½validation_modelï¿½ï¿½ï¿½updatesï¿½ï¿½ï¿½ï¿½
     train_model = theano.function(
         [index],
         cost,
@@ -198,13 +198,13 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nke
         }
     )
     ############
-    # ÑµÁ·Ä£ÐÍ #
+    # Ñµï¿½ï¿½Ä£ï¿½ï¿½ #
     ############
     print '... training'    
-    patience = 10000 # ÌáÔçÖÕÖ¹²ÎÊý
+    patience = 10000 # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½
     patience_increase = 2 
     improvement_threshold = 0.995  
-    # ÕâÑùÉèÖÃvalidation_frequency¿ÉÒÔ±£Ö¤Ã¿Ò»´Îepoch¶¼»áÔÚÑéÖ¤¼¯ÉÏ²âÊÔ¡£
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½validation_frequencyï¿½ï¿½ï¿½Ô±ï¿½Ö¤Ã¿Ò»ï¿½ï¿½epochï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½Ï²ï¿½ï¿½Ô¡ï¿½
     validation_frequency = min(n_train_batches, patience / 2)
     best_validation_loss = numpy.inf
     best_iter = 0
@@ -231,7 +231,7 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nke
                     best_iter = iter
                     test_losses = [ test_model(i) for i in xrange(n_test_batches) ]
                     test_score = numpy.mean(test_losses)
-                    print(('     epoch %i, minibatch %i/%i, test error of ' 'best model %f %%') %
+                    print(('     epoch %i, minibatch %i/%i, stock_rnn error of ' 'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches, test_score * 100.))
 
             if patience <= iter:
@@ -243,7 +243,7 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nke
     layer3.save_net("layer3")
     end_time = time.clock()
     print('Optimization complete.')
-    print('Best validation score of %f %% obtained at iteration %i, ' 'with test performance %f %%' %
+    print('Best validation score of %f %% obtained at iteration %i, ' 'with stock_rnn performance %f %%' %
           (best_validation_loss * 100., best_iter + 1, test_score * 100.))
     print >> sys.stderr, ('The code for file ' + os.path.split(__file__)[1] + ' ran for %.2fm' % ((end_time - start_time) / 60.))
 

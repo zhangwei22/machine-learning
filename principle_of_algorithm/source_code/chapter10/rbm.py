@@ -464,10 +464,10 @@ def test_rbm(learning_rate=0.1, training_epochs=15,
     #################################
     #     Sampling from the RBM     #
     #################################
-    # find out the number of test samples
+    # find out the number of stock_rnn samples
     number_of_test_samples = test_set_x.get_value(borrow=True).shape[0]
 
-    # pick random test examples, with which to initialize the persistent chain
+    # pick random stock_rnn examples, with which to initialize the persistent chain
     test_idx = rng.randint(number_of_test_samples - n_chains)
     persistent_vis_chain = theano.shared(
         numpy.asarray(

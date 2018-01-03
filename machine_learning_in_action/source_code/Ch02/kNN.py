@@ -100,7 +100,7 @@ def handwritingClassTest():
         classNumStr = int(fileStr.split('_')[0])
         hwLabels.append(classNumStr)
         trainingMat[i, :] = img2vector('trainingDigits/%s' % fileNameStr)
-    testFileList = listdir('testDigits')  # iterate through the test set
+    testFileList = listdir('testDigits')  # iterate through the stock_rnn set
     errorCount = 0.0
     mTest = len(testFileList)
     for i in range(mTest):

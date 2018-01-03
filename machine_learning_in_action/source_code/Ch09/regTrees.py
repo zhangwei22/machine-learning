@@ -109,7 +109,7 @@ def getMean(tree):
 
 
 def prune(tree, testData):
-    if shape(testData)[0] == 0: return getMean(tree)  # if we have no test data collapse the tree
+    if shape(testData)[0] == 0: return getMean(tree)  # if we have no stock_rnn data collapse the tree
     if (isTree(tree['right']) or isTree(tree['left'])):  # if the branches are not trees try to prune them
         lSet, rSet = binSplitDataSet(testData, tree['spInd'], tree['spVal'])
     if isTree(tree['left']): tree['left'] = prune(tree['left'], lSet)

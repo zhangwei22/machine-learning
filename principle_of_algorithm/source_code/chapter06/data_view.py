@@ -8,7 +8,7 @@ from common_libs import *
 import matplotlib.pyplot as plt 
 
 # 输入数据
-Input = file2matrix("test.txt","\t")
+Input = file2matrix("stock_rnn.txt","\t")
 target = Input[:,0].copy()
 Input[:,0] = 	Input[:,2].copy()
 Input[:,2] = 	target.copy()	

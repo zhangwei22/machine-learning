@@ -121,7 +121,7 @@ def spamTest():
         classList.append(0)
     vocabList = createVocabList(docList)  # create vocabulary
     trainingSet = list(range(50))
-    testSet = []  # create test set
+    testSet = []  # create stock_rnn set
     for i in range(10):
         randIndex = int(random.uniform(0, len(trainingSet)))
         testSet.append(trainingSet[randIndex])

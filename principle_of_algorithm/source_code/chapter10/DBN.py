@@ -189,13 +189,13 @@ class DBN(object):
     def build_finetune_functions(self, datasets, batch_size, learning_rate):
         '''Generates a function `train` that implements one step of
         finetuning, a function `validate` that computes the error on a
-        batch from the validation set, and a function `test` that
+        batch from the validation set, and a function `stock_rnn` that
         computes the error on a batch from the testing set
 
         :type datasets: list of pairs of theano.tensor.TensorType
         :param datasets: It is a list that contain all the datasets;
                         the has to contain three pairs, `train`,
-                        `valid`, `test` in this order, where each pair
+                        `valid`, `stock_rnn` in this order, where each pair
                         is formed of two Theano variables, one for the
                         datapoints, the other for the labels
         :type batch_size: int
@@ -269,7 +269,7 @@ class DBN(object):
         def valid_score():
             return [valid_score_i(i) for i in xrange(n_valid_batches)]
 
-        # Create a function that scans the entire test set
+        # Create a function that scans the entire stock_rnn set
         def test_score():
             return [test_score_i(i) for i in xrange(n_test_batches)]
 
@@ -280,7 +280,7 @@ def test_DBN(finetune_lr=0.1, pretraining_epochs=100,
              pretrain_lr=0.01, k=1, training_epochs=1000,
              dataset='mnist.pkl.gz', batch_size=10):
     """
-    Demonstrates how to train and test a Deep Belief Network.
+    Demonstrates how to train and stock_rnn a Deep Belief Network.
 
     This is demonstrated on MNIST.
 
@@ -412,10 +412,10 @@ def test_DBN(finetune_lr=0.1, pretraining_epochs=100,
                     best_validation_loss = this_validation_loss
                     best_iter = iter
 
-                    # test it on the test set
+                    # stock_rnn it on the stock_rnn set
                     test_losses = test_model()
                     test_score = numpy.mean(test_losses)
-                    print(('     epoch %i, minibatch %i/%i, test error of '
+                    print(('     epoch %i, minibatch %i/%i, stock_rnn error of '
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,
                            test_score * 100.))
@@ -429,7 +429,7 @@ def test_DBN(finetune_lr=0.1, pretraining_epochs=100,
         (
             'Optimization complete with best validation score of %f %%, '
             'obtained at iteration %i, '
-            'with test performance %f %%'
+            'with stock_rnn performance %f %%'
         ) % (best_validation_loss * 100., best_iter + 1, test_score * 100.)
     )
     print >> sys.stderr, ('The fine tuning code for file ' +

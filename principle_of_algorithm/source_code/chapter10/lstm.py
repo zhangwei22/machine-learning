@@ -399,15 +399,15 @@ def train_lstm(
     saveFreq=1110,  # Save the parameters after every saveFreq updates
     maxlen=100,  # Sequence longer then this get ignored
     batch_size=16,  # The batch size during training.
-    valid_batch_size=64,  # The batch size used for validation/test set.
+    valid_batch_size=64,  # The batch size used for validation/stock_rnn set.
     dataset='imdb',
 
     # Parameter for extra option
     noise_std=0.,
-    use_dropout=True,  # if False slightly faster, but worst test error
+    use_dropout=True,  # if False slightly faster, but worst stock_rnn error
                        # This frequently need a bigger model.
     reload_model=None,  # Path to a saved model we want to start from.
-    test_size=-1,  # If >0, we keep only this number of test example.
+    test_size=-1,  # If >0, we keep only this number of stock_rnn example.
 ):
 
     # Model options
@@ -420,7 +420,7 @@ def train_lstm(
     train, valid, test = load_data(n_words=n_words, valid_portion=0.05,
                                    maxlen=maxlen)
     if test_size > 0:
-        # The test set is sorted by size, but we want to keep random
+        # The stock_rnn set is sorted by size, but we want to keep random
         # size example.  So we must select a random selection of the
         # examples.
         idx = numpy.arange(len(test[0]))
@@ -472,7 +472,7 @@ def train_lstm(
 
     print "%d train examples" % len(train[0])
     print "%d valid examples" % len(valid[0])
-    print "%d test examples" % len(test[0])
+    print "%d stock_rnn examples" % len(test[0])
 
     history_errs = []
     best_p = None

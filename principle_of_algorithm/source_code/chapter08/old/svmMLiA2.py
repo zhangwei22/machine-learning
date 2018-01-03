@@ -18,14 +18,14 @@ def loadDataSet(fileName):
         labelMat.append(float(lineArr[2]))
     return dataMat,labelMat
 
-# Ëæ»úÑ¡ÔñÒ»¸ö²»µÈÓÚiµÄj
+# ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½j
 def selectJrand(i,m):
     j=i 
     while (j==i):
         j = int(random.uniform(0,m))
     return j
 
-# µ÷Õû´óÓÚH,Ð¡ÓÚLµÄaj
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½H,Ð¡ï¿½ï¿½Lï¿½ï¿½aj
 def clipAlpha(aj,H,L):
     if aj > H: aj = H
     if L > aj: aj = L
@@ -72,13 +72,13 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
     #print "iteration number: %d" % iter
     return b,alphas
 
-# ×ª»»ºËº¯Êý
-# kTup ·½·¨±êÊ¶
+# ×ªï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½
+# kTup ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¶
 def kernelTrans(X, A, kTup): #calc the kernel or transform data to a higher dimensional space
     m,n = shape(X)
     K = mat(zeros((m,1)))
     if kTup[0]=='lin': K = X * A.T   #linear kernel
-    elif kTup[0]=='rbf':   # ¸ßË¹ºË
+    elif kTup[0]=='rbf':   # ï¿½ï¿½Ë¹ï¿½ï¿½
         for j in range(m):
             deltaRow = X[j,:] - A
             K[j] = deltaRow*deltaRow.T
@@ -88,31 +88,31 @@ def kernelTrans(X, A, kTup): #calc the kernel or transform data to a higher dime
     return K
 
 class optStruct:
-    # ¹¹Ôì·½·¨
+    # ï¿½ï¿½ï¿½ì·½ï¿½ï¿½
     def __init__(self,dataMatIn, classLabels, C, toler, kTup):  # Initialize the structure with the parameters 
-        self.X = dataMatIn #ÊäÈëÊý¾Ý¼¯
-        self.labelMat = classLabels # ±êÇ©¼¯
-        self.C = C #  ÔÚÔÊÐíÓÐ´íÎó·ÖÀàµÄÇé¿öÏÂ£¬¿ØÖÆ×î´ó»¯¼ä¾à,
-        self.tol = toler #ÈÝ´íÂÊtoler
-        self.m = shape(dataMatIn)[0] #Êý¾Ý¼¯ÐÐÊý
-        self.alphas = mat(zeros((self.m,1))) # À­¸ñÀÊÈÕ³Ë×Ó
-        self.b = 0 # ½Ø¾à³õÊ¼Öµ
-        self.eCache = mat(zeros((self.m,2))) # Îó²î»º´æ
-        self.K = mat(zeros((self.m,self.m))) # ´æ´¢ÓÃÓÚºËº¯Êý¼ÆËãµÄÏòÁ¿ 
+        self.X = dataMatIn #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½
+        self.labelMat = classLabels # ï¿½ï¿½Ç©ï¿½ï¿½
+        self.C = C #  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó»¯¼ï¿½ï¿½,
+        self.tol = toler #ï¿½Ý´ï¿½ï¿½ï¿½toler
+        self.m = shape(dataMatIn)[0] #ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½
+        self.alphas = mat(zeros((self.m,1))) # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ³ï¿½ï¿½ï¿½
+        self.b = 0 # ï¿½Ø¾ï¿½ï¿½Ê¼Öµ
+        self.eCache = mat(zeros((self.m,2))) # ï¿½ï¿½î»ºï¿½ï¿½
+        self.K = mat(zeros((self.m,self.m))) # ï¿½æ´¢ï¿½ï¿½ï¿½ÚºËºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
         for i in range(self.m):
-            self.K[:,i] = kernelTrans(self.X, self.X[i,:], kTup) # kTupÔª×é 	
+            self.K[:,i] = kernelTrans(self.X, self.X[i,:], kTup) # kTupÔªï¿½ï¿½ 	
       
 def calcEk(oS, k):
     fXk = float(multiply(oS.alphas,oS.labelMat).T*oS.K[:,k] + oS.b)
     Ek = fXk - float(oS.labelMat[k])
     return Ek
 
-#Ñ¡ÔñÁíÒ»¸öalpha
-#´Ó»º´æÖÐÑ°ÕÒ¾ßÓÐ×î´óÎó²îµÄÐÐË÷Òý×÷Îªj        
+#Ñ¡ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½alpha
+#ï¿½Ó»ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°ï¿½Ò¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªj        
 def selectJ(i, oS, Ei):         #this is the second choice -heurstic, and calcs Ej
     maxK = -1; maxDeltaE = 0; Ej = 0
-    oS.eCache[i] = [1,Ei]  #¸üÐÂÎó²î»º´æ
-    #Ñ¡È¡Îó²î»º´æ²»Îª0µÄÐÐË÷Òý
+    oS.eCache[i] = [1,Ei]  #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î»ºï¿½ï¿½
+    #Ñ¡È¡ï¿½ï¿½î»ºï¿½æ²»Îª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     validEcacheList = nonzero(oS.eCache[:,0].A)[0]
     if (len(validEcacheList)) > 1:
         for k in validEcacheList:   #loop through valid Ecache values and find the one that maximizes delta E
@@ -127,20 +127,20 @@ def selectJ(i, oS, Ei):         #this is the second choice -heurstic, and calcs 
         Ej = calcEk(oS, j)
     return j, Ej
     
-# ¼ÆËãºÍ¸üÐÂÖ÷Êý¾Ý½á¹¹µÄÎó²î»º´æ
+# ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½á¹¹ï¿½ï¿½ï¿½ï¿½î»ºï¿½ï¿½
 def updateEk(oS, k):#after any alpha has changed update the new value in the cache
     Ek = calcEk(oS, k)
     oS.eCache[k] = [1,Ek]
     
-# Ö÷º¯Êý-ÄÚÑ­»·
-# ÓësmoSimple»ù±¾ÏàÍ¬--ÕâÀï²»ÔÙÏê½â        
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½Ñ­ï¿½ï¿½
+# ï¿½ï¿½smoSimpleï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬--ï¿½ï¿½ï¿½ï²»ï¿½ï¿½ï¿½ï¿½ï¿½        
 def innerL(i, oS):
-    Ei = calcEk(oS, i) # ¼ÆËãºÍ¸üÐÂiµÄÎó²î»º´æ
-    # Èç¹ûÎó²î³¬³öÈÝ´íÂÊºÍ´íÎó·ÖÀàÔÊÐíµÄ±ß½ç
+    Ei = calcEk(oS, i) # ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½î»ºï¿½ï¿½
+    # ï¿½ï¿½ï¿½ï¿½ï¿½î³¬ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ÊºÍ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ß½ï¿½
     if ((oS.labelMat[i]*Ei < -oS.tol) and (oS.alphas[i] < oS.C)) or ((oS.labelMat[i]*Ei > oS.tol) and (oS.alphas[i] > 0)):
-        j,Ej = selectJ(i, oS, Ei) #Ñ¡Ôñ¾ßÓÐ×î´óÎó²îµÄÐÐË÷Òý×÷Îªj
+        j,Ej = selectJ(i, oS, Ei) #Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªj
         alphaIold = oS.alphas[i].copy(); alphaJold = oS.alphas[j].copy();
-        # ¼ûµÚ¶þÕÂ¹«Ê½Ê®Ò»
+        # ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Â¹ï¿½Ê½Ê®Ò»
         if (oS.labelMat[i] != oS.labelMat[j]):
             L = max(0, oS.alphas[j] - oS.alphas[i])
             H = min(oS.C, oS.C + oS.alphas[j] - oS.alphas[i])
@@ -149,56 +149,56 @@ def innerL(i, oS):
             H = min(oS.C, oS.alphas[j] + oS.alphas[i])
         if L==H: 
         	return 0
-        eta = 2.0 * oS.K[i,j] - oS.K[i,i] - oS.K[j,j] # ËÉ³Ú±äÁ¿£¬¼ûµÚ¶þÕÂ¹«Ê½Ê®ÎåÖÐÄ¿±êº¯ÊýµÄ¶þ½×µ¼Êý
+        eta = 2.0 * oS.K[i,j] - oS.K[i,i] - oS.K[j,j] # ï¿½É³Ú±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Â¹ï¿½Ê½Ê®ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½êº¯ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½×µï¿½ï¿½ï¿½
         if eta >= 0: 
         	return 0
-        oS.alphas[j] -= oS.labelMat[j]*(Ei - Ej)/eta # ¼ûµÚ¶þÕÂ¹«Ê½¾Å
-        oS.alphas[j] = clipAlpha(oS.alphas[j],H,L) # ¼ûµÚ¶þÕÂ¹«Ê½Ê®ºÍ¹«Ê½Ê®¶þ
-        updateEk(oS, j) #¼ÆËãºÍ¸üÐÂjµÄ»º´æ
+        oS.alphas[j] -= oS.labelMat[j]*(Ei - Ej)/eta # ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Â¹ï¿½Ê½ï¿½ï¿½
+        oS.alphas[j] = clipAlpha(oS.alphas[j],H,L) # ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Â¹ï¿½Ê½Ê®ï¿½Í¹ï¿½Ê½Ê®ï¿½ï¿½
+        updateEk(oS, j) #ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½jï¿½Ä»ï¿½ï¿½ï¿½
         if (abs(oS.alphas[j] - alphaJold) < 0.00001): 
         	return 0
         oS.alphas[i] += oS.labelMat[j]*oS.labelMat[i]*(alphaJold - oS.alphas[j])#update i by the same amount as j
         updateEk(oS, i) #added this for the Ecache                    #the update is in the oppostie direction
-        #¼ûµÚ¶þÕÂ¹«Ê½Ê®ËÄ
+        #ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Â¹ï¿½Ê½Ê®ï¿½ï¿½
         b1 = oS.b - Ei- oS.labelMat[i]*(oS.alphas[i]-alphaIold)*oS.K[i,i] - oS.labelMat[j]*(oS.alphas[j]-alphaJold)*oS.K[i,j]
         b2 = oS.b - Ej- oS.labelMat[i]*(oS.alphas[i]-alphaIold)*oS.K[i,j]- oS.labelMat[j]*(oS.alphas[j]-alphaJold)*oS.K[j,j]
-        # ¸ù¾ÝKKTÌõ¼þ¸üÐÂbµÄÈ¡Öµ
+        # ï¿½ï¿½ï¿½ï¿½KKTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½ï¿½È¡Öµ
         if (0 < oS.alphas[i]) and (oS.C > oS.alphas[i]): oS.b = b1
         elif (0 < oS.alphas[j]) and (oS.C > oS.alphas[j]): oS.b = b2
         else: oS.b = (b1 + b2)/2.0
         return 1
     else: return 0
     	
-# Ö÷º¯Êý-ÍâÑ­»·
-# ºËº¯ÊýÀàÐÍ£ºkTup=('lin', 0) #Ä¬ÈÏÏßÐÔ·ÖÀàÆ÷
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½Ñ­ï¿½ï¿½
+# ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½kTup=('lin', 0) #Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½
 def smoP(dataMatIn, classLabels, C, toler, maxIter,kTup=('lin', 0)):    #full Platt SMO
-	  # ¹¹ÔìSMOÓÅ»¯¶ÔÏó
+	  # ï¿½ï¿½ï¿½ï¿½SMOï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½
     oS = optStruct(mat(dataMatIn),mat(classLabels).transpose(),C,toler, kTup)
     iter = 0
-    # entireSetÈ«¼¯É¨Ãè±êÖ¾Î»
+    # entireSetÈ«ï¿½ï¿½É¨ï¿½ï¿½ï¿½Ö¾Î»
     entireSet = True; alphaPairsChanged = 0
-    # ÍâÑ­»·µü´úÆ÷
-    # ÖÕÖ¹Ìõ¼þ:³¬¹ý×î´óµü´ú´ÎÊýÊ±,»òÎ´¶Ôalpha×ö³öµ÷ÕûÊ±ÍË³ö
+    # ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    # ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±,ï¿½ï¿½Î´ï¿½ï¿½alphaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ë³ï¿½
     while (iter < maxIter) and ((alphaPairsChanged > 0) or (entireSet)):
         alphaPairsChanged = 0
-        if entireSet:   # ±éÀúÕû¸öÊý¾Ý¼¯
+        if entireSet:   # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½
             for i in range(oS.m):        
-                alphaPairsChanged += innerL(i,oS) # ½øÈëÄÚÑ­»·
-                # Êä³öÄÚÑ­»·¶ÔalphaµÄµ÷Õû
+                alphaPairsChanged += innerL(i,oS) # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
+                # ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½alphaï¿½Äµï¿½ï¿½ï¿½
                 # print "fullSet, iter: %d i:%d, pairs changed %d" % (iter,i,alphaPairsChanged)
             iter += 1
-        else:           # ±éÀú·Ç±ß½çµÄalphas
-            nonBoundIs = nonzero((oS.alphas.A > 0) * (oS.alphas.A < C))[0] # Í¨¹ýKKTÈ·¶¨alphasµÄÎ»ÖÃ
+        else:           # ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ß½ï¿½ï¿½alphas
+            nonBoundIs = nonzero((oS.alphas.A > 0) * (oS.alphas.A < C))[0] # Í¨ï¿½ï¿½KKTÈ·ï¿½ï¿½alphasï¿½ï¿½Î»ï¿½ï¿½
             for i in nonBoundIs:
-                alphaPairsChanged += innerL(i,oS) # ½øÈëÄÚÑ­»·
+                alphaPairsChanged += innerL(i,oS) # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
                 # print "non-bound, iter: %d i:%d, pairs changed %d" % (iter,i,alphaPairsChanged)
             iter += 1
-        if entireSet: entireSet = False # ×ª»»±êÖ¾Î» ÇÐ»»µ½Á½ÖÖ±éÀú·½Ê½µÄÁíÒ»ÖÖ
-        elif (alphaPairsChanged == 0): entireSet = True  # ×ª»»±êÖ¾Î» ±éÀúÕû¸öÊý¾Ý¼¯
+        if entireSet: entireSet = False # ×ªï¿½ï¿½ï¿½ï¿½Ö¾Î» ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
+        elif (alphaPairsChanged == 0): entireSet = True  # ×ªï¿½ï¿½ï¿½ï¿½Ö¾Î» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½
     # print "iteration number: %d" % iter
     return oS.b,oS.alphas
 
-# ¼ÆËãÈ¨ÖØÏòÁ¿
+# ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 def calcWs(alphas,dataArr,classLabels):
     X = mat(dataArr); labelMat = mat(classLabels).T
     m,n = shape(X)
@@ -230,7 +230,7 @@ def testRbf(k1=1.3):
         kernelEval = kernelTrans(sVs,datMat[i,:],('rbf', k1))
         predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b
         if sign(predict)!=sign(labelArr[i]): errorCount += 1    
-    print "the test error rate is: %f" % (float(errorCount)/m)    
+    print "the stock_rnn error rate is: %f" % (float(errorCount)/m)
     
 def img2vector(filename):
     returnVect = zeros((1,1024))
@@ -279,7 +279,7 @@ def testDigits(kTup=('rbf', 10)):
         kernelEval = kernelTrans(sVs,datMat[i,:],kTup)
         predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b
         if sign(predict)!=sign(labelArr[i]): errorCount += 1    
-    print "the test error rate is: %f" % (float(errorCount)/m) 
+    print "the stock_rnn error rate is: %f" % (float(errorCount)/m)
 
 
 '''#######********************************

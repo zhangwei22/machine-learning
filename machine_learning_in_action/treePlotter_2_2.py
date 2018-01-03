@@ -24,7 +24,7 @@ def getNumLeafs(myTree):
     firstStr = myTree.keys()[0]
     secondDict = myTree[firstStr]
     for key in secondDict.keys():
-        # test to see if the nodes are dictonaires, if not they are leaf nodes
+        # stock_rnn to see if the nodes are dictonaires, if not they are leaf nodes
         if type(secondDict[key]).__name__ == 'dict':
             numLeafs += getNumLeafs(secondDict[key])
         else:

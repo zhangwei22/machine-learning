@@ -172,8 +172,8 @@ def crossValidation(xArr,yArr,numVal=10):
             matTestX = mat(testX); matTrainX=mat(trainX)
             meanTrain = mean(matTrainX,0)
             varTrain = var(matTrainX,0)
-            matTestX = (matTestX-meanTrain)/varTrain #regularize test with training params
-            yEst = matTestX * mat(wMat[k,:]).T + mean(trainY)#test ridge results and store
+            matTestX = (matTestX-meanTrain)/varTrain #regularize stock_rnn with training params
+            yEst = matTestX * mat(wMat[k,:]).T + mean(trainY)#stock_rnn ridge results and store
             errorMat[i,k]=rssError(yEst.T.A,array(testY))
             #print errorMat[i,k]
     meanErrors = mean(errorMat,0)#calc avg performance of the different ridge weight vectors

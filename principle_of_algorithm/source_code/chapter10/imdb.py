@@ -90,7 +90,7 @@ def load_data(path="imdb.pkl", n_words=100000, valid_portion=0.1, maxlen=None,
     :param maxlen: the max sequence length we use in the train/valid set.
     :type sort_by_len: bool
     :name sort_by_len: Sort by the sequence lenght for the train,
-        valid and test set. This allow faster execution as it cause
+        valid and stock_rnn set. This allow faster execution as it cause
         less padding per minibatch. Another mechanism must be used to
         shuffle the train set at each epoch.
 

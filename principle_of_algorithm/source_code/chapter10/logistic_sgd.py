@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
-±¾½Ì³Ì½éÉÜÁËÊ¹ÓÃTheanoºÍËæ»úÌÝ¶ÈÏÂ½µlogistic»Ø¹é¡£Logistic»Ø¹éÊÇÒ»¸ö¸ÅÂÊµÄ£¬ÏßÐÔ·ÖÀàÆ÷¡£
-ËüÊÇÒ»¸ö²ÎÊý»¯µÄÈ¨ÖØ¾ØÕó:"W"ºÍÒ»¸öÆ«ÒÆÏòÁ¿'b'¡£
-·ÖÀàÆ÷ÊÇÍ¨¹ýÍ¶Ó°Êý¾Ýµãµ½Ò»×é³¬Æ½ÃæµÄÍê³É£¬¾àÀë±»ÓÃÓÚÈ·¶¨Ò»¸öÀà±ð³ÉÔ±¸ÅÂÊ¡£
-Ëü±»Ð´Îª:
-±¾½Ì³Ì½éÉÜÁËÊÊÓÃÓÚ´óÐÍÊý¾Ý¼¯Ëæ»úÌÝ¶ÈÏÂ½µÓÅ»¯·½·¨¡£
+ï¿½ï¿½ï¿½Ì³Ì½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½Theanoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½Â½ï¿½logisticï¿½Ø¹é¡£Logisticï¿½Ø¹ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ÊµÄ£ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Ø¾ï¿½ï¿½ï¿½:"W"ï¿½ï¿½Ò»ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½'b'ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½Í¶Ó°ï¿½ï¿½ï¿½Ýµãµ½Ò»ï¿½é³¬Æ½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ë±»ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½Ê¡ï¿½
+ï¿½ï¿½ï¿½ï¿½Ð´Îª:
+ï¿½ï¿½ï¿½Ì³Ì½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½Â½ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 """
 __docformat__ = 'restructedtext en'
@@ -22,56 +22,56 @@ import theano.tensor as T
 class LogisticRegression(object):
     def __init__(self, input, n_in, n_out):
 
-        # ³õÊ¼»¯È¨ÖØWÎªÈ«0¾ØÕó shape(n_in, n_out) W ÊÇÒ»¸ö¾ØÕó£¬µÚkÁÐ±íÊ¾ÎªµÚkÀàµÄ·Ö¸ô³¬Æ½Ãæ
+        # ï¿½ï¿½Ê¼ï¿½ï¿½È¨ï¿½ï¿½WÎªÈ«0ï¿½ï¿½ï¿½ï¿½ shape(n_in, n_out) W ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬µï¿½kï¿½Ð±ï¿½Ê¾Îªï¿½ï¿½kï¿½ï¿½Ä·Ö¸ï¿½ï¿½ï¿½Æ½ï¿½ï¿½
         self.W = theano.shared(
             value=numpy.zeros((n_in, n_out), dtype=theano.config.floatX ),
             name='W',
             borrow=True
         )
-        # ³õÊ¼»¯Æ«ÒÆÁ¿bÎªÈ«0ÏòÁ¿£¬n_out 0; b ÊÇ¸öÏòÁ¿£¬ÆäÖÐÔªËØk±íÊ¾Îª³¬Æ½ÃækµÄ×ÔÓÉ²ÎÊý
+        # ï¿½ï¿½Ê¼ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½bÎªÈ«0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½n_out 0; b ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½kï¿½ï¿½Ê¾Îªï¿½ï¿½Æ½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½É²ï¿½ï¿½ï¿½
         self.b = theano.shared(
             value=numpy.zeros((n_out,), dtype=theano.config.floatX ),
             name='b',
             borrow=True
         )
 
-        # ¼ÆËãÀà³ÉÔ±¸ÅÂÊµÄ·ûºÅ±í´ïÊ½¾ØÕó£¬ÆäÖÐ£º
-        # x:inputÊÇ¸ö¾ØÕó£¬ÆäÖÐ row-j ±íÊ¾ÎªµÚj¸öÊäÈëÑµÁ·Ñù±¾
-        # inputÊÇ(n_example,n_in)£¬WÊÇ£¨n_in,n_out£©,µã³ËµÃµ½(n_example,n_out)£¬¼ÓÉÏÆ«ÖÃb£¬  
-        # ÔÙ×÷ÎªT.nnet.softmaxµÄÊäÈë£¬µÃµ½p_y_given_x  
-        # ¹Êp_y_given_xÃ¿Ò»ÐÐ´ú±íÃ¿Ò»¸öÑù±¾±»¹À¼ÆÎª¸÷Àà±ðµÄ¸ÅÂÊ      
-        # PS£ºbÊÇn_outÎ¬ÏòÁ¿£¬Óë(n_example,n_out)¾ØÕóÏà¼Ó£¬ÄÚ²¿ÆäÊµÊÇÏÈ¸´ÖÆn_example¸öb£¬  
-        # È»ºó(n_example,n_out)¾ØÕóµÄÃ¿Ò»ÐÐ¶¼¼Ób  
+        # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ÊµÄ·ï¿½ï¿½Å±ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½
+        # x:inputï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row-j ï¿½ï¿½Ê¾Îªï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        # inputï¿½ï¿½(n_example,n_in)ï¿½ï¿½Wï¿½Ç£ï¿½n_in,n_outï¿½ï¿½,ï¿½ï¿½ËµÃµï¿½(n_example,n_out)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½bï¿½ï¿½  
+        # ï¿½ï¿½ï¿½ï¿½ÎªT.nnet.softmaxï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½Ãµï¿½p_y_given_x  
+        # ï¿½ï¿½p_y_given_xÃ¿Ò»ï¿½Ð´ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½      
+        # PSï¿½ï¿½bï¿½ï¿½n_outÎ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(n_example,n_out)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½Ú²ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½n_exampleï¿½ï¿½bï¿½ï¿½  
+        # È»ï¿½ï¿½(n_example,n_out)ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½Ð¶ï¿½ï¿½ï¿½b  
         self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
 
-        # Í¨¹ý·ûºÅ±äÁ¿À´¼ÆËãÔ¤²â¸ÅÂÊ×î´óµÄÀà
+        # Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         self.y_pred = T.argmax(self.p_y_given_x, axis=1)
 
-        # ¹¹³ÉÄ£ÐÍ²ÎÊý
+        # ï¿½ï¿½ï¿½ï¿½Ä£ï¿½Í²ï¿½ï¿½ï¿½
         self.params = [self.W, self.b]
 
     def negative_log_likelihood(self, y):
 
-        # ´ú¼Ûº¯ÊýNLL  
-        # ÒòÎªÎÒÃÇÊÇMSGD£¬Ã¿´ÎÑµÁ·Ò»¸öbatch£¬Ò»¸öbatchÓÐn_example¸öÑù±¾£¬Ôòy´óÐ¡ÊÇ(n_example,),  
-        # y.shape[0]µÃ³öÐÐÊý¼´Ñù±¾Êý£¬½«T.log(self.p_y_given_x)¼ò¼ÇÎªLP£¬  
-        # ÔòLP[T.arange(y.shape[0]),y]µÃµ½[LP[0,y[0]], LP[1,y[1]], LP[2,y[2]], ...,LP[n-1,y[n-1]]]  
-        # ×îºóÇó¾ùÖµmean£¬Ò²¾ÍÊÇËµ£¬minibatchµÄSGD£¬ÊÇ¼ÆËã³öbatchÀïËùÓÐÑù±¾µÄNLLµÄÆ½¾ùÖµ£¬×÷ÎªËüµÄcost  
+        # ï¿½ï¿½ï¿½Ûºï¿½ï¿½ï¿½NLL  
+        # ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MSGDï¿½ï¿½Ã¿ï¿½ï¿½Ñµï¿½ï¿½Ò»ï¿½ï¿½batchï¿½ï¿½Ò»ï¿½ï¿½batchï¿½ï¿½n_exampleï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½Ð¡ï¿½ï¿½(n_example,),  
+        # y.shape[0]ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½T.log(self.p_y_given_x)ï¿½ï¿½ï¿½ÎªLPï¿½ï¿½  
+        # ï¿½ï¿½LP[T.arange(y.shape[0]),y]ï¿½Ãµï¿½[LP[0,y[0]], LP[1,y[1]], LP[2,y[2]], ...,LP[n-1,y[n-1]]]  
+        # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµmeanï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½minibatchï¿½ï¿½SGDï¿½ï¿½ï¿½Ç¼ï¿½ï¿½ï¿½ï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NLLï¿½ï¿½Æ½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½cost  
         return -T.mean(T.log(self.p_y_given_x)[T.arange(y.shape[0]), y])
 
-    def errors(self, y): # batchµÄÎó²îÂÊ  
-        # ¼ì²âyÓëy_predÊÇ·ñÓÐÏàÍ¬µÄÎ¬¶È
+    def errors(self, y): # batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+        # ï¿½ï¿½ï¿½yï¿½ï¿½y_predï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½Î¬ï¿½ï¿½
         if y.ndim != self.y_pred.ndim:
             raise TypeError(
                 'y should have the same shape as self.y_pred',('y', y.type, 'y_pred', self.y_pred.type)
             )
-        # ¼ì²âyÊÇ·ñÊÇÕýÈ·µÄÊý¾ÝÀàÐÍ
+        # ï¿½ï¿½ï¿½yï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if y.dtype.startswith('int'): 
-            # ÔÙ¼ì²éÊÇ²»ÊÇintÀàÐÍ£¬ÊÇµÄ»°¼ÆËãT.neq(self.y_pred, y)µÄ¾ùÖµ£¬×÷ÎªÎó²îÂÊ  
-            # ¾Ù¸öÀý×Ó£¬¼ÙÈçself.y_pred=[3,2,3,2,3,2],¶øÊµ¼ÊÉÏy=[3,4,3,4,3,4]  
-            # ÔòT.neq(self.y_pred, y)=[0,1,0,1,0,1],1±íÊ¾²»µÈ£¬0±íÊ¾ÏàµÈ  
-            # ¹ÊT.mean(T.neq(self.y_pred, y))=T.mean([0,1,0,1,0,1])=0.5£¬¼´´íÎóÂÊ50%            
-            return T.mean(T.neq(self.y_pred, y)) # T.neq²Ù×÷·û·µ»ØÁËÒ»¸ö0ºÍ1µÄÏòÁ¿£¬ÕâÀï1±íÊ¾Ò»¸öÔ¤²â´íÎó
+            # ï¿½Ù¼ï¿½ï¿½ï¿½Ç²ï¿½ï¿½ï¿½intï¿½ï¿½ï¿½Í£ï¿½ï¿½ÇµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½T.neq(self.y_pred, y)ï¿½Ä¾ï¿½Öµï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½  
+            # ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½self.y_pred=[3,2,3,2,3,2],ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½y=[3,4,3,4,3,4]  
+            # ï¿½ï¿½T.neq(self.y_pred, y)=[0,1,0,1,0,1],1ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½È£ï¿½0ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½  
+            # ï¿½ï¿½T.mean(T.neq(self.y_pred, y))=T.mean([0,1,0,1,0,1])=0.5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½50%            
+            return T.mean(T.neq(self.y_pred, y)) # T.neqï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½0ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê¾Ò»ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½
         else:
             raise NotImplementedError()
     def save_net(self, path):  
@@ -82,13 +82,13 @@ class LogisticRegression(object):
         write_file.close()
 
 ##############
-# ¼ÓÔØÊý¾Ý¼¯ #
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ #
 ##############
 def load_data(dataset):
-    # Èç¹û±¾µØ²»´æÔÚ¾Í´ÓÍøÂçÏÂÔØÊý¾Ý¼¯
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½Ú¾Í´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½
     data_dir, data_file = os.path.split(dataset)
     if data_dir == "" and not os.path.isfile(dataset):
-        # ¼ì²âÊý¾Ý¼¯ÊÇ·ñÔÚÊý¾ÝÄ¿Â¼ÖÐ.
+        # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½.
         new_path = os.path.join(
             os.path.split(__file__)[0], "..", "data", dataset
         )
@@ -103,23 +103,23 @@ def load_data(dataset):
 
     print '... loading data'
 
-    # ¼ÓÔØÊý¾Ý¼¯Ö÷·½·¨
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     f = gzip.open(dataset, 'rb')
     train_set, valid_set, test_set = cPickle.load(f)
     f.close()
     
-    # º¯Êý±Õ°ü£ºÑµÁ·¼¯, ÑéÖ¤¼¯, ²âÊÔ¼¯¸ñÊ½: tuple(input, target)
-    # ÊäÈëÊ±Ò»¸ö¶þÎ¬µÄnumpy.ndarray (ÊÇÒ»¸ö¾ØÕó)
-    # ÆäÖÐÃ¿Ò»ÐÐ¶¼ÊÇÒ»¸öÑù±¾. Ä¿±êÊÇ¸öÒ»Î¬µÄnumpy.ndarray (vector))ÓëÊäÈëÐÐÊýÓÐÍ¬ÑùµÄ³¤¶È 
-    # ËüÓ¦¸Ã¸ø³öÒ»¸öÓëÊäÈëÊý¾ÝË÷ÒýÏàÍ¬µÄÑù±¾Ä¿±ê¡£
+    # ï¿½ï¿½ï¿½ï¿½ï¿½Õ°ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ö¤ï¿½ï¿½, ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½Ê½: tuple(input, target)
+    # ï¿½ï¿½ï¿½ï¿½Ê±Ò»ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½numpy.ndarray (ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+    # ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½Ð¶ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. Ä¿ï¿½ï¿½ï¿½Ç¸ï¿½Ò»Î¬ï¿½ï¿½numpy.ndarray (vector))ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ 
+    # ï¿½ï¿½Ó¦ï¿½Ã¸ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ê¡£
     def shared_dataset(data_xy, borrow=True):
 
         data_x, data_y = data_xy
         shared_x = theano.shared(numpy.asarray(data_x, dtype=theano.config.floatX), borrow=borrow)
         shared_y = theano.shared(numpy.asarray(data_y, dtype=theano.config.floatX), borrow=borrow)
-        # µ±´æ´¢Êý¾Ýµ½GPUÊ±£¬Êý¾Ý±ØÐëÎªfloat¸ñÊ½£¬Òò´ËÎÒÃÇ½«±êÇ©´æ´¢Îª"floatX"
-        # µ«ÔÚ¼ÆËãÆÚ¼ä£¬ÎÒÃÇÐèÒª½«Æä×÷Îªint£¬(ÒòÎªÊÇË÷Òý£¬Èç¹ûËûÃÇÊÇ¸¡µãÊý
-        # ËüÊÇÎÞÒâÒåµÄ)£¬·µ»ØÖ®ºó£¬ÎÒÃÇ½«Æä×ª»»Îªint¡£ÕâÊÇ»Ø±Ü¸ÃÎÊÌâµÄÒ»¸ö¼¼ÇÉ
+        # ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ýµï¿½GPUÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ý±ï¿½ï¿½ï¿½Îªfloatï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½Ç©ï¿½æ´¢Îª"floatX"
+        # ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½Ú¼ä£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªintï¿½ï¿½(ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½
+        # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªintï¿½ï¿½ï¿½ï¿½ï¿½Ç»Ø±Ü¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         return shared_x, T.cast(shared_y, 'int32')
 
     test_set_x, test_set_y = shared_dataset(test_set)
@@ -129,11 +129,11 @@ def load_data(dataset):
     rval = [(train_set_x, train_set_y), (valid_set_x, valid_set_y),
             (test_set_x, test_set_y)]
     return rval
-# Ö÷Ö´ÐÐº¯Êý
-# learning_rate=0.13, £ºÌÝ¶ÈÏÂ½µ·¨µÄÈ¨ÖØ¸üÐÂÂÊ
-# n_epochs=1000, ×î´óµü´ú´ÎÊý
-# dataset='mnist.pkl.gz', Êý¾Ý¼¯
-# batch_size=600 Åú´óÐ¡
+# ï¿½ï¿½Ö´ï¿½Ðºï¿½ï¿½ï¿½
+# learning_rate=0.13, ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
+# n_epochs=1000, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+# dataset='mnist.pkl.gz', ï¿½ï¿½ï¿½Ý¼ï¿½
+# batch_size=600 ï¿½ï¿½ï¿½ï¿½Ð¡
 def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, dataset='mnist.pkl.gz',batch_size=600):
 
     datasets = load_data(dataset)
@@ -142,26 +142,26 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, dataset='mnist.pkl
     valid_set_x, valid_set_y = datasets[1]
     test_set_x, test_set_y = datasets[2]
 
-    # ¼ÆËãÓÐ¶àÉÙ¸öminibatch£¬ÒòÎªÎÒÃÇµÄÓÅ»¯Ëã·¨ÊÇMSGD£¬ÊÇÒ»¸öbatchÒ»¸öbatchÀ´¼ÆËãcostµÄ
+    # ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ù¸ï¿½minibatchï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Çµï¿½ï¿½Å»ï¿½ï¿½ã·¨ï¿½ï¿½MSGDï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½batchÒ»ï¿½ï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½costï¿½ï¿½
     n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
     n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
     n_test_batches = test_set_x.get_value(borrow=True).shape[0] / batch_size
 
     ############
-    # ¹¹½¨Ä£ÐÍ #
+    # ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ #
     ############
     print '... building the model'
     
-    # ÉèÖÃ±äÁ¿£¬index±íÊ¾minibatchµÄÏÂ±ê£¬x±íÊ¾ÑµÁ·Ñù±¾£¬yÊÇ¶ÔÓ¦µÄlabel  
-    index = T.lscalar()  # Ë÷Òý±äÁ¿    
-    x = T.matrix('x')   # Êý¾Ý, ³ÊÏÖÎª¹âÕ¤Í¼Ïñ
-    y = T.ivector('y')  # ±êÇ©, ³ÊÏÖÎª[INT]±êÇ©µÄ1Î¬ÏòÁ¿
+    # ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½indexï¿½ï¿½Ê¾minibatchï¿½ï¿½ï¿½Â±ê£¬xï¿½ï¿½Ê¾Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½Ç¶ï¿½Ó¦ï¿½ï¿½label  
+    index = T.lscalar()  # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½    
+    x = T.matrix('x')   # ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Õ¤Í¼ï¿½ï¿½
+    y = T.ivector('y')  # ï¿½ï¿½Ç©, ï¿½ï¿½ï¿½ï¿½Îª[INT]ï¿½ï¿½Ç©ï¿½ï¿½1Î¬ï¿½ï¿½ï¿½ï¿½
 
-    # ÊµÀý»¯logisitic·ÖÀàÆ÷£¬Ã¿¸öMNIST Í¼µÄ³ß´çÎª 28*28 £¬xÓÃ×÷input³õÊ¼»¯¡£ 
+    # Êµï¿½ï¿½ï¿½ï¿½logisiticï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½MNIST Í¼ï¿½Ä³ß´ï¿½Îª 28*28 ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½inputï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ 
     classifier = LogisticRegression(input=x, n_in=28*28, n_out=10)
-    # ¼ÆËã´ú¼Û£¬ÓÃyÀ´³õÊ¼»¯£¬¶øÆäÊµ»¹ÓÐÒ»¸öÒþº¬µÄ²ÎÊýInput
-    cost = classifier.negative_log_likelihood(y) # ¸º¶ÔÊýËÆÈ»µÄ´ú¼Û
-    # ¶¨Òå²âÊÔÄ£ÐÍ£ºº¯ÊýÖ¸Õë
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û£ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½Input
+    cost = classifier.negative_log_likelihood(y) # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È»ï¿½Ä´ï¿½ï¿½ï¿½
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
     test_model = theano.function(
         inputs=[index], outputs=classifier.errors(y),
         givens={
@@ -169,7 +169,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, dataset='mnist.pkl
             y: test_set_y[index * batch_size: (index + 1) * batch_size]
         }
     )
-    # ¶¨ÒåÑéÖ¤Ä£ÐÍ£ºº¯ÊýÖ¸Õë
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤Ä£ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
     validate_model = theano.function(
         inputs=[index], outputs=classifier.errors(y),
         givens={
@@ -178,14 +178,14 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, dataset='mnist.pkl
         }
     )
 
-    # ¼ÆËãtheta = (W,b)µÄÌÝ¶È
+    # ï¿½ï¿½ï¿½ï¿½theta = (W,b)ï¿½ï¿½ï¿½Ý¶ï¿½
     g_W = T.grad(cost=cost, wrt=classifier.W)
     g_b = T.grad(cost=cost, wrt=classifier.b)
 
-    # learning_rate£ºÌÝ¶ÈÏÂ½µ·¨µÄÈ¨ÖØ¸üÐÂÂÊ
+    # learning_rateï¿½ï¿½ï¿½Ý¶ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
     updates = [(classifier.W, classifier.W - learning_rate * g_W),(classifier.b, classifier.b - learning_rate * g_b)]
 
-    # º¯ÊýÖ¸Õë¶¨ÒåÑµÁ·Ä£ÐÍ
+    # ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ë¶¨ï¿½ï¿½Ñµï¿½ï¿½Ä£ï¿½ï¿½
     train_model = theano.function(
         inputs=[index], outputs=cost, updates=updates,
         givens={
@@ -195,44 +195,44 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, dataset='mnist.pkl
     )
 
     ###############
-    #   ÑµÁ·Ä£ÐÍ  #
+    #   Ñµï¿½ï¿½Ä£ï¿½ï¿½  #
     ###############
     print '... training the model'
-    patience = 5000  # ×î´óµü´ú´ÎÊý
-    patience_increase = 2   # ²½³¤
-    # Ìá¸ßµÄãÐÖµ£¬ÔÚÑéÖ¤Îó²î¼õÐ¡µ½Ö®Ç°µÄ0.995±¶Ê±£¬»á¸üÐÂbest_validation_loss     
-    improvement_threshold = 0.995  # Ïàµ±´óµÄ¸ÄÉÆ±»ÈÏÎªÊÇÏÔÖø
-    # ÕâÑùÉèÖÃvalidation_frequency¿ÉÒÔ±£Ö¤Ã¿Ò»´Îepoch¶¼»áÔÚÑéÖ¤¼¯ÉÏ²âÊÔ¡£  
+    patience = 5000  # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    patience_increase = 2   # ï¿½ï¿½ï¿½ï¿½
+    # ï¿½ï¿½ßµï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½Ö®Ç°ï¿½ï¿½0.995ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½best_validation_loss     
+    improvement_threshold = 0.995  # ï¿½àµ±ï¿½ï¿½Ä¸ï¿½ï¿½Æ±ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½validation_frequencyï¿½ï¿½ï¿½Ô±ï¿½Ö¤Ã¿Ò»ï¿½ï¿½epochï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½Ï²ï¿½ï¿½Ô¡ï¿½  
     validation_frequency = min(n_train_batches, patience / 2)
-    best_validation_loss = numpy.inf # ×îºÃµÄÑéÖ¤¼¯ÉÏµÄloss£¬Ô½Ð¡¼´Ô½ºÃ¡£³õÊ¼»¯ÎªÎÞÇî´ó  
+    best_validation_loss = numpy.inf # ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½Ïµï¿½lossï¿½ï¿½Ô½Ð¡ï¿½ï¿½Ô½ï¿½Ã¡ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½  
     test_score = 0.
-    start_time = time.clock() # ¿ªÊ¼Ê±¼ä
+    start_time = time.clock() # ï¿½ï¿½Ê¼Ê±ï¿½ï¿½
 
     done_looping = False
     epoch = 0
-    # ÏÂÃæ¾ÍÊÇÑµÁ·¹ý³ÌÁË£¬whileÑ­»·¿ØÖÆµÄÊ±²½Êýepoch£¬Ò»¸öepoch»á±éÀúËùÓÐµÄbatch£¬¼´ËùÓÐµÄÍ¼Æ¬¡£ 
-    # µ±´ïµ½×î´ó²½Êýn_epochÊ±£¬»òÕßpatience<iterÊ±£¬½áÊøÑµÁ·  
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½whileÑ­ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Ê±ï¿½ï¿½ï¿½ï¿½epochï¿½ï¿½Ò»ï¿½ï¿½epochï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½batchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Í¼Æ¬ï¿½ï¿½ 
+    # ï¿½ï¿½ï¿½ïµ½ï¿½ï¿½ï¿½ï¿½ï¿½n_epochÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½patience<iterÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½  
     while (epoch < n_epochs) and (not done_looping):
         epoch = epoch + 1
-        # forÑ­»·ÊÇ±éÀúÒ»¸ö¸öbatch£¬Ò»´ÎÒ»¸öbatchµØÑµÁ·¡£          
-        # Ñ­»·ÌåÀï»áÓÃtrain_model(minibatch_index)È¥ÑµÁ·Ä£ÐÍ£¬
+        # forÑ­ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½batchï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½batchï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½          
+        # Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½train_model(minibatch_index)È¥Ñµï¿½ï¿½Ä£ï¿½Í£ï¿½
         for minibatch_index in xrange(n_train_batches):
-            minibatch_avg_cost = train_model(minibatch_index)  # µÃµ½Ã¿ÅúµÄÆ½¾ù´ú¼Û       
-            iter = (epoch - 1) * n_train_batches + minibatch_index # ÀÛ¼ÓÑµÁ·¹ýµÄbatchÊýiter¡£
-            # µ±iterÊÇvalidation_frequency±¶ÊýÊ±Ôò»áÔÚÑéÖ¤¼¯ÉÏ²âÊÔ£¬
+            minibatch_avg_cost = train_model(minibatch_index)  # ï¿½Ãµï¿½Ã¿ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½       
+            iter = (epoch - 1) * n_train_batches + minibatch_index # ï¿½Û¼ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½batchï¿½ï¿½iterï¿½ï¿½
+            # ï¿½ï¿½iterï¿½ï¿½validation_frequencyï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½Ï²ï¿½ï¿½Ô£ï¿½
             if (iter + 1) % validation_frequency == 0:                
-                validation_losses = [validate_model(i) for i in xrange(n_valid_batches)] # ¼ÆËãÑéÖ¤¼¯µÄËðÊ§¸ÅÂÊ
+                validation_losses = [validate_model(i) for i in xrange(n_valid_batches)] # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ï¿½ï¿½
                 this_validation_loss = numpy.mean(validation_losses)
-                # Êä³ö
+                # ï¿½ï¿½ï¿½
                 print(
                     'epoch %i, minibatch %i/%i, validation error %f %%' %
                     (
                         epoch,  minibatch_index + 1, n_train_batches,  this_validation_loss * 100.
                     )
                 )
-                # Èç¹ûÑéÖ¤¼¯µÄËðÊ§this_validation_lossÐ¡ÓÚÖ®Ç°×î¼ÑµÄËðÊ§best_validation_loss£¬  
-                # Ôò¸üÐÂbest_validation_lossºÍbest_iter£¬Í¬Ê±ÔÚtestsetÉÏ²âÊÔ¡£  
-                # Èç¹ûÑéÖ¤¼¯µÄËðÊ§this_validation_lossÐ¡ÓÚbest_validation_loss*improvement_thresholdÊ±Ôò¸üÐÂpatience¡£
+                # ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§this_validation_lossÐ¡ï¿½ï¿½Ö®Ç°ï¿½ï¿½Ñµï¿½ï¿½ï¿½Ê§best_validation_lossï¿½ï¿½  
+                # ï¿½ï¿½ï¿½ï¿½ï¿½best_validation_lossï¿½ï¿½best_iterï¿½ï¿½Í¬Ê±ï¿½ï¿½testsetï¿½Ï²ï¿½ï¿½Ô¡ï¿½  
+                # ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§this_validation_lossÐ¡ï¿½ï¿½best_validation_loss*improvement_thresholdÊ±ï¿½ï¿½ï¿½ï¿½ï¿½patienceï¿½ï¿½
                 if this_validation_loss < best_validation_loss:
                     if this_validation_loss < best_validation_loss * improvement_threshold:
                         patience = max(patience, iter * patience_increase)
@@ -242,24 +242,24 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, dataset='mnist.pkl
 
                     print(
                         (
-                            '     epoch %i, minibatch %i/%i, test error of'
+                            '     epoch %i, minibatch %i/%i, stock_rnn error of'
                             ' best model %f %%'
                         ) %
                         (
                             epoch, minibatch_index + 1, n_train_batches, test_score * 100.
                         )
                     )
-            if patience <= iter: # ´ïµ½×î´óµü´ú´ÎÊý£¬ÍË³ö
+            if patience <= iter: # ï¿½ïµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½
                 done_looping = True
                 break
-    classifier.save_net("convnet.data") # ±£´æÎÒÃÇÑµÁ·ºóÉñ¾­ÍøÂçµÄ½á¹û²ÎÊý¡£
-    # whileÑ­»·½áÊø
-    end_time = time.clock() # ½áÊøÊ±¼ä
-    # Êä³ö
+    classifier.save_net("convnet.data") # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    # whileÑ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    end_time = time.clock() # ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+    # ï¿½ï¿½ï¿½
     print(
         (
             'Optimization complete with best validation score of %f %%,'
-            'with test performance %f %%'
+            'with stock_rnn performance %f %%'
         )
         % (best_validation_loss * 100., test_score * 100.)
     )

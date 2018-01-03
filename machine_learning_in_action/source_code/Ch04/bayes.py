@@ -107,7 +107,7 @@ def spamTest():
         classList.append(0)
     vocabList = createVocabList(docList)  # create vocabulary
     trainingSet = range(50);
-    testSet = []  # create test set
+    testSet = []  # create stock_rnn set
     for i in range(10):
         randIndex = int(random.uniform(0, len(trainingSet)))
         testSet.append(trainingSet[randIndex])
@@ -157,7 +157,7 @@ def localWords(feed1, feed0):
     for pairW in top30Words:
         if pairW[0] in vocabList: vocabList.remove(pairW[0])
     trainingSet = range(2 * minLen);
-    testSet = []  # create test set
+    testSet = []  # create stock_rnn set
     for i in range(20):
         randIndex = int(random.uniform(0, len(trainingSet)))
         testSet.append(trainingSet[randIndex])

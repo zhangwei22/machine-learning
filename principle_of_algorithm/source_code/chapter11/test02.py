@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-# Filename: test.py
+# Filename: stock_rnn.py
 
 from numpy import *
 
