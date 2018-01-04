@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from python_machine_learning.bord_view_005 import plot_decision_regions
+from python_machine_learning.chapter1.bord_view_005 import plot_decision_regions
 
 from python_machine_learning.chapter1.perceptron_1 import Perceptron
 
