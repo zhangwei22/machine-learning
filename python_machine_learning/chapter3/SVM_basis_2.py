@@ -24,7 +24,7 @@ def sk_learn_realization():
     '''
     ppn = SGDClassifier(loss='perceptron')
     lr = SGDClassifier(loss='log')
-    svm = SGDClassifier()
+    svm = SGDClassifier(loss='hinge')
 
 
 if __name__ == '__main__':

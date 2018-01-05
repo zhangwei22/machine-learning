@@ -99,6 +99,7 @@ weights, params = [], []
 for c in np.arange(-5, 5):
     lr = LogisticRegression(C=math.pow(10, c), random_state=0)
     lr.fit(X_train_std, y_train)
+    print("111:", lr.coef_)
     weights.append(lr.coef_[1])
     params.append(math.pow(10, c))
 
