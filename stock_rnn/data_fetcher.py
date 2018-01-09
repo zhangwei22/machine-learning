@@ -8,6 +8,9 @@ import pandas as pd
 import random
 import time
 import urllib
+import urllib.request
+import urllib.parse
+import csv
 
 from datetime import datetime
 
@@ -24,17 +27,22 @@ def _download_sp500_list():
     if os.path.exists(SP500_LIST_PATH):
         return
 
-    f = urllib.urlopen(SP500_LIST_URL)
-    print("Downloading ...", SP500_LIST_URL)
-    with open(SP500_LIST_PATH, 'w') as fin:
-        print >> fin, f.read()
+    df = pd.read_csv(SP500_LIST_URL)
+    out = open(SP500_LIST_PATH, 'w')
+    csv_writer = csv.writer(out, quoting=csv.QUOTE_NONE)
+
+    csv_writer.writerow(df.columns)
+    for index, line in df.iterrows():
+        print(SP500_LIST_PATH, "current index:", index)
+        csv_writer.writerow(line)
+    out.close()
     return
 
 
 def _load_symbols():
     _download_sp500_list()
     df_sp500 = pd.read_csv(SP500_LIST_PATH)
-    df_sp500.sort('Market Cap', ascending=False, inplace=True)
+    df_sp500.sort_values('Market Cap', ascending=False, inplace=True)
     stock_symbols = df_sp500['Symbol'].unique().tolist()
     print("Loaded %d stock symbols" % len(stock_symbols))
     return stock_symbols
@@ -54,17 +62,17 @@ def fetch_prices(symbol, out_name):
 
     BASE_URL = "https://www.google.com/finance/historical?output=csv&q={0}&startdate=Jan+1%2C+1980&enddate={1}"
     symbol_url = BASE_URL.format(
-        urllib.quote(symbol),
-        urllib.quote(now_datetime, '+')
+        urllib.parse.quote(symbol),
+        urllib.parse.quote(now_datetime, '+')
     )
     print("Fetching {} ...".format(symbol))
     print(symbol_url)
 
     try:
-        f = urllib.urlopen(symbol_url)
+        f = urllib.request.urlopen(symbol_url)
         with open(out_name, 'w') as fin:
-            print >> fin, f.read()
-    except urllib.HTTPError:
+            print(f.read(), end="", file=fin)
+    except urllib.request.HTTPError:
         print("Failed when fetching {}".format(symbol))
         return False
 
@@ -73,7 +81,7 @@ def fetch_prices(symbol, out_name):
         print("Remove {} because the data set is empty.".format(out_name))
         os.remove(out_name)
     else:
-        dates = data.iloc[:,0].tolist()
+        dates = data.iloc[:, 0].tolist()
         print("# Fetched rows: %d [%s to %s]" % (data.shape[0], dates[-1], dates[0]))
 
     # Take a rest
@@ -90,7 +98,7 @@ def main(continued):
     num_failure = 0
 
     # This is S&P 500 index
-    #fetch_prices('INDEXSP%3A.INX')
+    # fetch_prices('INDEXSP%3A.INX')
 
     symbols = _load_symbols()
     for idx, sym in enumerate(symbols):
