@@ -1,1 +1,1 @@
-This modul is study for 《机器学习算法原理与编程实战》
+This module is study for 《机器学习算法原理与编程实战》

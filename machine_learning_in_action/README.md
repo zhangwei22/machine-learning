@@ -1,1 +1,1 @@
-This modul is study for 《Machine Learning in Action》
+This module is study for 《Machine Learning in Action》
