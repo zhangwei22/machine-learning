@@ -12,7 +12,7 @@ from sklearn.cross_validation import cross_val_score
 
 def k_fold_achieve(X_train, y_train, pipe_lr):
     '''
-    代码实现k折校验
+    代码实现k折交叉验证
     :param X_train:
     :param y_train:
     :return:
@@ -29,6 +29,13 @@ def k_fold_achieve(X_train, y_train, pipe_lr):
 
 
 def k_fold_sklearn(X_train, y_train, pipe_lr):
+    '''
+    sklearn实现k折交叉验证
+    :param X_train:
+    :param y_train:
+    :param pipe_lr:
+    :return:
+    '''
     scores = cross_val_score(estimator=pipe_lr, X=X_train, y=y_train, cv=10, n_jobs=1)
     print('CV accuracy scores: %s' % scores)
     print('CV accuracy: %.3f +/- %.3f' % (np.mean(scores), np.std(scores)))
