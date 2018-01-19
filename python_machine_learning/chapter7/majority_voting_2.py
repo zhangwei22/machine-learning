@@ -18,6 +18,15 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 
 
+def init_iris_dataset():
+    iris = datasets.load_iris()
+    X, y = iris.data[50:, [1, 2]], iris.target[50:]
+    le = LabelEncoder()
+    y = le.fit_transform(y)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=1)
+    return X_train, X_test, y_train, y_test
+
+
 class MajorityVoteClassifier(BaseEstimator, ClassifierMixin):
     '''
     A majority vote ensemble classifier
@@ -98,11 +107,7 @@ if __name__ == '__main__':
     print(p)
     print(np.argmax(p))
 
-    iris = datasets.load_iris()
-    X, y = iris.data[50:, [1, 2]], iris.target[50:]
-    le = LabelEncoder()
-    y = le.fit_transform(y)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=1)
+    X_train, X_test, y_train, y_test = init_iris_dataset()
 
     clf1 = LogisticRegression(C=0.01, random_state=0)
     clf2 = DecisionTreeClassifier(max_depth=1, criterion='entropy', random_state=0)
