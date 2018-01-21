@@ -1,4 +1,6 @@
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.cross_validation import train_test_split
@@ -34,3 +36,24 @@ if __name__ == '__main__':
     ada_test = accuracy_score(y_test, y_test_pred)
     print('AdaBoost train/test accuracies %.3f/%.3f' % (ada_train, ada_test))
 
+    x_min = X_train[:, 0].min() - 1
+    x_max = X_train[:, 0].max() + 1
+    y_min = X_train[:, 1].min() - 1
+    y_max = X_train[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1), np.arange(y_min, y_max, 0.1))
+    f, axarr = plt.subplots(1, 2, sharex='col', sharey='row', figsize=(8, 3))
+    for idx, clf, tt in zip([0, 1], [tree, ada], ['Decision Tree', 'AdaBoost']):
+        clf.fit(X_train, y_train)
+        Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+        Z = Z.reshape(xx.shape)
+        axarr[idx].scatter(X_train[y_train == 0, 0],
+                           X_train[y_train == 0, 1],
+                           c='blue',
+                           marker='^')
+        axarr[idx].scatter(X_train[y_train == 1, 0],
+                           X_train[y_train == 1, 1],
+                           c='red',
+                           marker='o')
+        axarr[idx].set_title(tt)
+    axarr[0].set_ylabel('Alcohol', fontsize=12)
+    plt.show()
