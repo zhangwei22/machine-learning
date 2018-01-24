@@ -1,6 +1,7 @@
 import os
 import pyprind
 import pandas as pd
+import numpy as np
 
 if __name__ == '__main__':
     pbar = pyprind.ProgBar(50000)
@@ -15,3 +16,9 @@ if __name__ == '__main__':
                 df = df.append([[txt, labels[l]]], ignore_index=True)
                 pbar.update()
     df.columns = ['review', 'sentiment']
+
+    np.random.seed(0)
+    df = df.reindex(np.random.permutation(df.index))
+    df.to_csv('./movie_data.csv', index=False)
+    # df = pd.read_csv('./movie_data.csv')
+    # print(df.head(3))
