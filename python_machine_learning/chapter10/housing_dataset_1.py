@@ -4,6 +4,7 @@ import seaborn as sns
 import numpy as np
 
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
 
 
 def show_data_analysis(df):
@@ -50,6 +51,17 @@ def lin_regplot(X, y, model):
     return None
 
 
+def sk_learn_achieve(X, y):
+    slr = LinearRegression()
+    slr.fit(X, y)
+    print('Slope: %.3f' % slr.coef_[0])
+    print('Intercept: %.3f' % slr.intercept_)
+    lin_regplot(X, y, slr)
+    plt.xlabel('Average number of rooms [RM] (standardized)')
+    plt.ylabel('Price in $1000\'s [MEDV] (standardized)')
+    plt.show()
+
+
 if __name__ == '__main__':
     df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,
                      sep='\s+')
@@ -84,3 +96,6 @@ if __name__ == '__main__':
 
     print('Slope:%.3f' % lr.w_[1])
     print('Intercept:%.3f' % lr.w_[0])
+
+    ###sk-learn实现回归
+    sk_learn_achieve(X, y)
